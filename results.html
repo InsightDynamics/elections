@@ -64,7 +64,7 @@
         }
         .btn-danger:hover { background-color: #c82333; }
 
-        #party-summary {
+        #party-summary, #majority-info {
             padding: 15px;
             background: white;
             border-radius: 10px;
@@ -105,7 +105,7 @@
             .subheading { font-size: 1em; }
             .btn { padding: 10px 14px; font-size: 14px; }
             #map { height: 400px; }
-            #party-summary, #info { font-size: 14px; padding: 10px; }
+            #party-summary, #info, #majority-info { font-size: 14px; padding: 10px; }
         }
     </style>
 </head>
@@ -117,13 +117,18 @@
     </header>
 
     <div class="button-container">
-        <a href="https://noahcornish.github.io/election_dashboard/index.html" class="btn btn-primary">🏠 Back to Home</a>
+        <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
     </div>
 
     <div id="party-summary" class="card">Loading election data...</div>
 
-    <div id="map"></div>
+    <div id="majority-info">
+        <h2>🔵 PC Party Wins Majority</h2>
+        <p>The Progressive Conservative Party has won a <strong>majority government</strong> for the third election in a row.</p>
+        <p>This marks the first time any party has won three consecutive majority governments in Ontario since <strong>1959</strong>.</p>
+    </div>
 
+    <div id="map"></div>
     <div id="info" class="info-box">Tap on a riding to view results.</div>
 
     <div class="button-container">
