@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
+        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -16,42 +17,52 @@
         }
 
         h2 {
-            margin-top: 20px;
+            margin-top: 10px;
+            font-size: 1.8em;
             color: #333;
         }
 
+        /* Container for centering elements */
         #container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
+        /* Party Summary - Dynamic counts */
         #party-summary {
-            padding: 15px;
-            font-size: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
             font-weight: bold;
             background: white;
             border-radius: 8px;
+            padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
+        /* Map Responsiveness */
         #map {
-            height: 600px;
+            height: 500px;
             width: 100%;
-            margin: 20px auto;
+            margin: 10px auto;
             border-radius: 10px;
             border: 2px solid #ddd;
         }
 
+        /* Info Box */
         #info {
-            padding: 15px;
+            padding: 10px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
+        /* Dropdown Styling */
         #riding-select {
             font-size: 16px;
             padding: 8px;
@@ -60,10 +71,11 @@
             border: 1px solid #ccc;
         }
 
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
             background: white;
             border-radius: 8px;
             overflow: hidden;
@@ -71,8 +83,9 @@
 
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
+            font-size: 14px;
         }
 
         th {
@@ -87,13 +100,58 @@
         tr:hover {
             background-color: #ddd;
         }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            #container {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            #party-summary {
+                flex-direction: column;
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            #map {
+                height: 400px;
+            }
+
+            th, td {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h2 {
+                font-size: 1.3em;
+            }
+
+            #party-summary {
+                font-size: 13px;
+            }
+
+            #map {
+                height: 350px;
+            }
+
+            th, td {
+                font-size: 11px;
+                padding: 5px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <h2>Ontario Election Results Map</h2>
         
-        <!-- Party Summary Section -->
+        <!-- Party Summary Section (Dynamic Counts) -->
         <div id="party-summary">Loading election data...</div>
 
         <select id="riding-select">
@@ -117,17 +175,16 @@
         var partyCount = { "PC Party of Ontario": 0, "Ontario Liberal Party": 0, "Ontario NDP/NPD": 0, "Green Party of Ontario GPO": 0 };
 
         function getColor(party) {
-            if (party === "PC Party of Ontario") return "blue";
-            if (party === "Ontario Liberal Party") return "red";
-            if (party === "Ontario NDP/NPD") return "orange";
-            if (party === "Green Party of Ontario GPO") return "green";
-            return "gray";
+            return {
+                "PC Party of Ontario": "blue",
+                "Ontario Liberal Party": "red",
+                "Ontario NDP/NPD": "orange",
+                "Green Party of Ontario GPO": "green"
+            }[party] || "gray";
         }
 
         function formatResults(results) {
-            if (!results || results.length === 0) {
-                return "<p>No data available</p>";
-            }
+            if (!results || results.length === 0) return "<p>No data available</p>";
 
             let table = `<table>
                             <tr>
@@ -136,7 +193,6 @@
                                 <th>Votes</th>
                                 <th>Percentage</th>
                             </tr>`;
-
             results.forEach(r => {
                 table += `<tr>
                             <td>${r.Candidate}</td>
@@ -145,9 +201,7 @@
                             <td>${r.Percentage}</td>
                           </tr>`;
             });
-
-            table += `</table>`;
-            return table;
+            return table + `</table>`;
         }
 
         function updatePartySummary() {
@@ -163,7 +217,6 @@
             .then(response => response.json())
             .then(data => {
                 electionData = data;
-
                 fetch(geojsonData)
                     .then(response => response.json())
                     .then(geoData => {
@@ -177,25 +230,11 @@
                                     let leadingParty = result[0].Party;
                                     let color = getColor(leadingParty);
 
-                                    // Count leading ridings
-                                    if (partyCount[leadingParty] !== undefined) {
-                                        partyCount[leadingParty]++;
-                                    }
+                                    if (partyCount[leadingParty] !== undefined) partyCount[leadingParty]++;
 
-                                    return {
-                                        color: "black",
-                                        weight: 1,
-                                        fillColor: color,
-                                        fillOpacity: 0.5
-                                    };
-                                } else {
-                                    return {
-                                        color: "black",
-                                        weight: 1,
-                                        fillColor: "gray",
-                                        fillOpacity: 0.3
-                                    };
+                                    return { color: "black", weight: 1, fillColor: color, fillOpacity: 0.5 };
                                 }
+                                return { color: "black", weight: 1, fillColor: "gray", fillOpacity: 0.3 };
                             },
                             onEachFeature: function (feature, layer) {
                                 layer.on("click", function () {
@@ -205,30 +244,9 @@
                                 });
                             }
                         }).addTo(map);
-
-                        updatePartySummary(); // Update party count after loading
-                        
-                        let select = document.getElementById("riding-select");
-                        geoData.features.forEach(feature => {
-                            let option = document.createElement("option");
-                            option.value = feature.properties.ENGLISH_NA;
-                            option.textContent = feature.properties.ENGLISH_NA;
-                            select.appendChild(option);
-                        });
+                        updatePartySummary();
                     });
             });
-
-        document.getElementById("riding-select").addEventListener("change", function () {
-            let selectedRiding = this.value;
-            if (selectedRiding) {
-                ridingLayer.eachLayer(layer => {
-                    if (layer.feature.properties.ENGLISH_NA === selectedRiding) {
-                        map.fitBounds(layer.getBounds());
-                        layer.fire("click");
-                    }
-                });
-            }
-        });
     </script>
 </body>
 </html>
