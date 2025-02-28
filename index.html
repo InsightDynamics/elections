@@ -242,11 +242,33 @@
                                     let result = electionData[riding];
                                     document.getElementById("info").innerHTML = `<h3>${riding}</h3>${formatResults(result)}`;
                                 });
+
+                                // Store reference for selection fix
+                                layer.ridingName = feature.properties.ENGLISH_NA;
                             }
                         }).addTo(map);
+
                         updatePartySummary();
+
+                        let select = document.getElementById("riding-select");
+                        geoData.features.forEach(feature => {
+                            let option = document.createElement("option");
+                            option.value = feature.properties.ENGLISH_NA;
+                            option.textContent = feature.properties.ENGLISH_NA;
+                            select.appendChild(option);
+                        });
                     });
             });
+
+        document.getElementById("riding-select").addEventListener("change", function () {
+            let selectedRiding = this.value;
+            ridingLayer.eachLayer(layer => {
+                if (layer.ridingName === selectedRiding) {
+                    map.fitBounds(layer.getBounds());
+                    layer.fire("click");
+                }
+            });
+        });
     </script>
 </body>
 </html>
