@@ -31,6 +31,7 @@
 
         var ridingLayer;
 
+        // Function to get the color based on the leading party
         function getColor(party) {
             return party === "PC" ? "blue" :
                    party === "Liberal" ? "red" :
@@ -46,12 +47,24 @@
 
         fetch(geojsonData).then(response => response.json()).then(data => {
             ridingLayer = L.geoJson(data, {
-                style: feature => ({
-                    color: "black",
-                    weight: 1,
-                    fillColor: "white",
-                    fillOpacity: 0.5
-                }),
+                style: function (feature) {
+                    // Fetch the election results
+                    fetch(electionResults)
+                        .then(response => response.json())
+                        .then(results => {
+                            let riding = feature.properties.ENGLISH_NA;
+                            let result = results[riding];
+                            let leadingParty = result ? result[0].Party : ""; // Assuming first result is the leading party
+                            
+                            // Set the color based on the leading party
+                            return {
+                                color: "black",
+                                weight: 1,
+                                fillColor: getColor(leadingParty), // Dynamically set fillColor
+                                fillOpacity: 0.3 // Set fill opacity to 30%
+                            };
+                        });
+                },
                 onEachFeature: function (feature, layer) {
                     layer.on("click", function () {
                         fetch(electionResults).then(response => response.json()).then(results => {
