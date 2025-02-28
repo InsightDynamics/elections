@@ -7,53 +7,108 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
-        #map { height: 600px; width: 100%; margin-bottom: 20px; }
-        #info { padding: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        #info {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #riding-select {
+            font-size: 16px;
+            padding: 8px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 15px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
         }
+
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            padding: 10px;
+            text-align: center;
         }
+
         th {
-            background-color: #f4f4f4;
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
-    <h2>Ontario Election Results Map</h2>
-    <select id="riding-select">
-        <option value="">Select a Riding</option>
-    </select>
-    <div id="info">Click on a riding to view results.</div>
-    <div id="map"></div>
+    <div id="container">
+        <h2>Ontario Election Results Map</h2>
+        <select id="riding-select">
+            <option value="">Select a Riding</option>
+        </select>
+        <div id="map"></div>
+        <div id="info">Click on a riding to view results.</div>
+    </div>
 
     <script>
-        var map = L.map('map').setView([50, -85], 5); // Centered on Ontario
-        
+        var map = L.map('map').setView([50, -85], 5);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        var geojsonData = "electoral_districts.geojson"; // Load the GeoJSON file
-        var electionResults = "election_results.json"; // Load election results
+        var geojsonData = "electoral_districts.geojson";
+        var electionResults = "election_results.json";
         var ridingLayer;
-        var electionData = {}; // Store election results globally
+        var electionData = {};
 
-        // Function to get color based on the leading party
         function getColor(party) {
             if (party === "PC Party of Ontario") return "blue";
             if (party === "Ontario Liberal Party") return "red";
             if (party === "Ontario NDP/NPD") return "orange";
             if (party === "Green Party of Ontario GPO") return "green";
-            return "gray"; // Default for unknown parties
+            return "gray";
         }
 
-        // Format results as a table
         function formatResults(results) {
             if (!results || results.length === 0) {
                 return "<p>No data available</p>";
@@ -80,13 +135,11 @@
             return table;
         }
 
-        // Load election results first
         fetch(electionResults)
             .then(response => response.json())
             .then(data => {
-                electionData = data; // Store election results globally
+                electionData = data;
 
-                // Now load the map with colors applied
                 fetch(geojsonData)
                     .then(response => response.json())
                     .then(geoData => {
@@ -96,7 +149,6 @@
                                 let result = electionData[riding];
 
                                 if (result && result.length > 0) {
-                                    // Sort to find the candidate with the most votes
                                     result.sort((a, b) => parseInt(b.Votes.replace(/,/g, '')) - parseInt(a.Votes.replace(/,/g, '')));
                                     let leadingParty = result[0].Party;
                                     let color = getColor(leadingParty);
@@ -104,8 +156,8 @@
                                     return {
                                         color: "black",
                                         weight: 1,
-                                        fillColor: color, // Apply color dynamically
-                                        fillOpacity: 0.5 // Set fill opacity to 50% for better visibility
+                                        fillColor: color,
+                                        fillOpacity: 0.5
                                     };
                                 } else {
                                     return {
@@ -125,7 +177,6 @@
                             }
                         }).addTo(map);
 
-                        // Populate dropdown with riding names
                         let select = document.getElementById("riding-select");
                         geoData.features.forEach(feature => {
                             let option = document.createElement("option");
@@ -136,7 +187,6 @@
                     });
             });
 
-        // Handle dropdown selection
         document.getElementById("riding-select").addEventListener("change", function () {
             let selectedRiding = this.value;
             if (selectedRiding) {
