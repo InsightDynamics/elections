@@ -10,34 +10,70 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f4f6f9;
         }
+
         #container {
-            max-width: 80%;
+            max-width: 90%;
             margin: 50px auto;
             padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
-        h1 { color: #222; }
-        p { font-size: 16px; color: #555; }
+
+        h1 {
+            color: #222;
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
         .btn {
             display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 20px;
+            font-size: 18px;
             color: white;
             background-color: #007bff;
             border: none;
             border-radius: 5px;
             text-decoration: none;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: 0.3s;
         }
-        .btn:hover { background-color: #0056b3; }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
         footer {
-            margin-top: 20px;
+            margin-top: 30px;
             font-size: 14px;
             color: #777;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 600px) {
+            #container {
+                max-width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 10px 16px;
+            }
         }
     </style>
 </head>
@@ -46,7 +82,7 @@
     <div id="container">
         <h1>2025 Ontario Election Results</h1>
         <p>View the latest election results on an interactive map.</p>
-        <a href="results.html" class="btn">View Results</a>
+        <a href="results.html" class="btn">📊 View Results</a>
     </div>
 
     <footer>
