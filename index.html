@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontario Election Results Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+        #info { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Ontario Election Results Map</h2>
+    <select id="riding-select">
+        <option value="">Select a Riding</option>
+    </select>
+    <div id="info">Click on a riding to view results.</div>
+    <div id="map"></div>
+    
+    <script>
+        var map = L.map('map').setView([50, -85], 5); // Centered on Ontario
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var geojsonData = "electoral_districts.geojson"; // Load the GeoJSON file
+        var electionResults = "election_results.json"; // Load election results
+
+        var ridingLayer;
+
+        function getColor(party) {
+            return party === "PC" ? "blue" :
+                   party === "Liberal" ? "red" :
+                   party === "NDP" ? "orange" : "gray";
+        }
+
+        function formatResults(results) {
+            if (!results || results.length === 0) {
+                return "No data available";
+            }
+            return results.map(r => `<strong>${r.Candidate}</strong> (${r.Party}): ${r.Votes} votes (${r.Percentage}%)`).join("<br>");
+        }
+
+        fetch(geojsonData).then(response => response.json()).then(data => {
+            ridingLayer = L.geoJson(data, {
+                style: feature => ({
+                    color: "black",
+                    weight: 1,
+                    fillColor: "white",
+                    fillOpacity: 0.5
+                }),
+                onEachFeature: function (feature, layer) {
+                    layer.on("click", function () {
+                        fetch(electionResults).then(response => response.json()).then(results => {
+                            let riding = feature.properties.ENGLISH_NA;
+                            let result = formatResults(results[riding]);
+                            document.getElementById("info").innerHTML = `<h3>${riding}</h3><p>${result}</p>`;
+                        });
+                    });
+                }
+            }).addTo(map);
+
+            // Populate dropdown
+            let select = document.getElementById("riding-select");
+            data.features.forEach(feature => {
+                let option = document.createElement("option");
+                option.value = feature.properties.ENGLISH_NA;
+                option.textContent = feature.properties.ENGLISH_NA;
+                select.appendChild(option);
+            });
+        });
+
+        document.getElementById("riding-select").addEventListener("change", function () {
+            let selectedRiding = this.value;
+            if (selectedRiding) {
+                ridingLayer.eachLayer(layer => {
+                    if (layer.feature.properties.ENGLISH_NA === selectedRiding) {
+                        map.fitBounds(layer.getBounds());
+                        layer.fire("click");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
