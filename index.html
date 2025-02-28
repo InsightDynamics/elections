@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Election Dashboard</title>
+    <title>Election Dashboard - Be an Informed Citizen</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,23 +15,24 @@
         body {
             font-family: 'Inter', sans-serif;
             text-align: center;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #f5f3ee; /* Soft cream background */
+            color: #2d2a26; /* Charcoal gray text */
+            padding: 15px;
         }
 
         #container {
             max-width: 80%;
             margin: 60px auto;
             padding: 25px;
-            background: white;
+            background: #fffdf8; /* Warm white */
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
         h1 {
-            font-size: 2.2em;
+            font-size: 2.4em;
             font-weight: 700;
-            color: #222;
+            color: #b8860b; /* Gold */
             margin-bottom: 10px;
         }
 
@@ -62,70 +63,32 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #6b705c; /* Neutral earthy tone */
             color: white;
         }
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #575d46;
         }
 
         .btn-secondary {
-            background-color: #ff9800;
+            background-color: #b8860b; /* Gold */
             color: white;
-            cursor: pointer;
         }
         .btn-secondary:hover {
-            background-color: #e68900;
+            background-color: #9a7409;
         }
 
         /* Countdown Timer */
         #countdown {
             font-size: 1.4em;
             font-weight: bold;
-            color: #dc3545;
+            color: #9a7409;
             margin-top: 20px;
-            background: #fff3cd;
+            background: #fef7e0;
             padding: 15px;
             border-radius: 8px;
             display: inline-block;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Modal Styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            max-width: 450px;
-            margin: 15% auto;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .btn-close {
-            background-color: #dc3545;
-        }
-        .btn-close:hover {
-            background-color: #c82333;
         }
 
         /* Sections Styling */
@@ -133,14 +96,14 @@
             max-width: 80%;
             margin: 40px auto;
             padding: 25px;
-            background: white;
+            background: #fffdf8;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
             text-align: left;
         }
 
         .section h2 {
-            color: #222;
+            color: #2d2a26;
             font-size: 1.8em;
             margin-bottom: 15px;
         }
@@ -159,7 +122,7 @@
 
         .section ul li::before {
             content: "✔";
-            color: #28a745;
+            color: #b8860b;
             font-weight: bold;
             margin-right: 8px;
         }
@@ -192,22 +155,18 @@
                 padding: 12px 18px;
                 width: 100%;
             }
-
-            .modal-content {
-                max-width: 90%;
-            }
         }
     </style>
 </head>
 <body>
 
     <div id="container">
-        <h1>📊 Election Dashboard</h1>
-        <p>View the latest election results and polling trends.</p>
+        <h1>🗳️ Cornish Election Hub: <br>Stay Informed, Vote Smart 🗳️</h1>
+        <p>Explore election results, polling trends, and learn how to be an engaged voter.</p>
 
         <div class="btn-container">
-            <a href="results.html" class="btn btn-primary">🗳️ 2025 Ontario Election Results</a>
-            <button class="btn btn-secondary" onclick="openModal()">📊 Federal Polling & Election Data</button>
+            <a href="results.html" class="btn btn-primary">📍 Ontario Election Results</a>
+            <a href="federal_polling.html" class="btn btn-secondary">📊 Federal Polling Data</a>
         </div>
 
         <!-- Countdown Timer -->
@@ -215,24 +174,22 @@
         <p><br>Created by: Noah Cornish</p>
     </div>
 
-    <!-- Modal Popup -->
-    <div id="popup-modal" class="modal">
-        <div class="modal-content">
-            <h2>📊 Federal Polling Data</h2>
-            <p><br>Polling data available.<br>Live results will be available on election night.</p>
-            <div class="modal-buttons">
-                <!--<button class="btn btn-close" onclick="closeModal()">❌ Close</button>-->
-                <a href="federal_polling.html" class="btn btn-secondary">🔗 Polling Data</a>
-            </div>
-        </div>
+    <div class="section">
+        <h2>🧠 How to Be an Informed Voter</h2>
+        <ul>
+            <li>Research party platforms and policies—not just headlines.</li>
+            <li>Verify facts from multiple trusted sources before sharing.</li>
+            <li>Watch live debates or read transcripts to understand leaders' positions.</li>
+            <li>Understand how the electoral system works—first-past-the-post vs. alternatives.</li>
+            <li>Engage in respectful discussions and encourage informed voting.</li>
+        </ul>
     </div>
 
     <div class="section">
-        <h2>📢 Latest Updates</h2>
+        <h2>📢 Webpage Updates</h2>
         <ul>
-            <li>🗳️ Ontario election results updated as of <strong>Feb 28, 2025</strong></li>
-            <li>📊 Federal polling updates are now available—stay informed!</li>
-            <li>🔍 Visit <a href="https://elections.ca">Elections Canada</a> for official details.</li>
+            <li> Ontario election results updated as of <strong>Feb 28, 2025</strong>.</li>
+            <li> Federal polling trends now available—stay informed!</li>
         </ul>
     </div>
 
@@ -242,6 +199,8 @@
             <li><a href="https://elections.ca">Elections Canada</a> – Official Federal Election Info</li>
             <li><a href="https://www.elections.on.ca">Elections Ontario</a> – Official Ontario Election Info</li>
             <li><a href="https://www.canada.ca/en/democratic-institutions.html">Canada Democratic Institutions</a> – Learn about the election process</li>
+            <li><a href="https://factscan.ca">FactScan</a> – Fact-checking political claims</li>
+            <li><a href="https://www.cbc.ca/news/politics">CBC Politics</a> – Canadian politics coverage</li>
         </ul>
     </div>
 
@@ -251,14 +210,6 @@
     </footer>
 
     <script>
-        function openModal() {
-            document.getElementById("popup-modal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("popup-modal").style.display = "none";
-        }
-
         function updateCountdown() {
             const electionDate = new Date("October 26, 2025 00:00:00").getTime();
             const now = new Date().getTime();
