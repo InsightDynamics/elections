@@ -50,25 +50,28 @@
             ridingLayer = L.geoJson(data, {
                 style: function (feature) {
                     // Fetch the election results
-                    fetch(electionResults)
+                    return fetch(electionResults)
                         .then(response => response.json())
                         .then(results => {
                             let riding = feature.properties.ENGLISH_NA;
                             let result = results[riding];
 
-                            // Sort the candidates by vote count in descending order to get the leading party
                             if (result && result.length > 0) {
-                                result.sort((a, b) => parseInt(b.Votes.replace(/,/g, '')) - parseInt(a.Votes.replace(/,/g, ''))); // Sort by vote count
+                                // Sort the candidates by vote count in descending order to get the leading party
+                                result.sort((a, b) => {
+                                    let aVotes = parseInt(a.Votes.replace(/,/g, ''));
+                                    let bVotes = parseInt(b.Votes.replace(/,/g, ''));
+                                    return bVotes - aVotes; // Sort descending
+                                });
 
-                                let leadingParty = result[0].Party; // Get the leading party
-                                // Use the full party name to get the color
-                                let color = getColor(leadingParty);
+                                let leadingParty = result[0].Party; // Get the party with the most votes
+                                let color = getColor(leadingParty); // Get the color for the leading party
 
-                                // Return style with 30% fill opacity and color based on leading party
+                                // Return the style with the corresponding color and 30% opacity
                                 return {
                                     color: "black",
                                     weight: 1,
-                                    fillColor: color, // Dynamically set fillColor based on leading party
+                                    fillColor: color, // Apply color based on the leading party
                                     fillOpacity: 0.3 // Set fill opacity to 30%
                                 };
                             } else {
