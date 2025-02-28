@@ -17,75 +17,83 @@
         }
 
         h2 {
-            margin-top: 10px;
-            font-size: 1.8em;
+            margin-top: 5px;
+            font-size: 1.5em;
             color: #333;
         }
 
         /* Container for centering elements */
         #container {
-            max-width: 1000px;
+            max-width: 95%;
             margin: 0 auto;
-            padding: 15px;
+            padding: 10px;
         }
 
-        /* Party Summary - Dynamic counts */
+        /* Party Summary */
         #party-summary {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             background: white;
             border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
+            padding: 6px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
         }
 
-        /* Map Responsiveness */
+        /* Map Styling */
         #map {
-            height: 500px;
+            height: 350px; /* Smaller height for mobile */
             width: 100%;
-            margin: 10px auto;
-            border-radius: 10px;
+            margin: 5px auto;
+            border-radius: 8px;
             border: 2px solid #ddd;
         }
 
         /* Info Box */
         #info {
-            padding: 10px;
+            padding: 8px;
+            font-size: 14px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 15px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
         }
 
-        /* Dropdown Styling */
-        #riding-select {
-            font-size: 16px;
-            padding: 8px;
-            margin-top: 10px;
+        /* Clear Button */
+        #clear-btn {
+            display: none;
+            margin-top: 8px;
+            padding: 6px 12px;
+            font-size: 13px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        #clear-btn:hover {
+            background-color: #c82333;
         }
 
         /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 6px;
             background: white;
             border-radius: 8px;
             overflow: hidden;
+            font-size: 12px;
         }
 
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 6px;
             text-align: center;
-            font-size: 14px;
         }
 
         th {
@@ -101,48 +109,43 @@
             background-color: #ddd;
         }
 
-        /* Responsive Design */
+        /* Mobile Optimization */
         @media screen and (max-width: 768px) {
-            #container {
-                padding: 10px;
-            }
-
-            h2 {
-                font-size: 1.5em;
-            }
-
-            #party-summary {
-                flex-direction: column;
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            #map {
-                height: 400px;
-            }
-
-            th, td {
-                font-size: 12px;
-                padding: 6px;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
             h2 {
                 font-size: 1.3em;
             }
 
             #party-summary {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             #map {
-                height: 350px;
+                height: 320px;
             }
 
             th, td {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 5px;
+            }
+
+            #clear-btn {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h2 {
+                font-size: 1.2em;
+            }
+
+            #map {
+                height: 300px;
+            }
+
+            th, td {
+                font-size: 10px;
+                padding: 4px;
             }
         }
     </style>
@@ -151,14 +154,12 @@
     <div id="container">
         <h2>Ontario Election Results Map</h2>
         
-        <!-- Party Summary Section (Dynamic Counts) -->
+        <!-- Party Summary -->
         <div id="party-summary">Loading election data...</div>
 
-        <select id="riding-select">
-            <option value="">Select a Riding</option>
-        </select>
         <div id="map"></div>
-        <div id="info">Click on a riding to view results.</div>
+        <div id="info">Tap on a riding to view results.</div>
+        <button id="clear-btn" onclick="clearSelection()">Clear Selection</button>
     </div>
 
     <script>
@@ -172,7 +173,14 @@
         var electionResults = "election_results.json";
         var ridingLayer;
         var electionData = {};
-        var partyCount = { "PC Party of Ontario": 0, "Ontario Liberal Party": 0, "Ontario NDP/NPD": 0, "Green Party of Ontario GPO": 0 };
+        var selectedLayer = null;
+
+        var partyCount = {
+            "PC Party of Ontario": 0, 
+            "Ontario Liberal Party": 0, 
+            "Ontario NDP/NPD": 0, 
+            "Green Party of Ontario GPO": 0
+        };
 
         function getColor(party) {
             return {
@@ -213,6 +221,15 @@
             `;
         }
 
+        function clearSelection() {
+            if (selectedLayer) {
+                ridingLayer.resetStyle(selectedLayer);
+                selectedLayer = null;
+            }
+            document.getElementById("info").innerHTML = "Tap on a riding to view results.";
+            document.getElementById("clear-btn").style.display = "none";
+        }
+
         fetch(electionResults)
             .then(response => response.json())
             .then(data => {
@@ -238,37 +255,19 @@
                             },
                             onEachFeature: function (feature, layer) {
                                 layer.on("click", function () {
+                                    if (selectedLayer) ridingLayer.resetStyle(selectedLayer);
+                                    selectedLayer = layer;
                                     let riding = feature.properties.ENGLISH_NA;
                                     let result = electionData[riding];
                                     document.getElementById("info").innerHTML = `<h3>${riding}</h3>${formatResults(result)}`;
+                                    document.getElementById("clear-btn").style.display = "block";
                                 });
-
-                                // Store reference for selection fix
-                                layer.ridingName = feature.properties.ENGLISH_NA;
                             }
                         }).addTo(map);
 
                         updatePartySummary();
-
-                        let select = document.getElementById("riding-select");
-                        geoData.features.forEach(feature => {
-                            let option = document.createElement("option");
-                            option.value = feature.properties.ENGLISH_NA;
-                            option.textContent = feature.properties.ENGLISH_NA;
-                            select.appendChild(option);
-                        });
                     });
             });
-
-        document.getElementById("riding-select").addEventListener("change", function () {
-            let selectedRiding = this.value;
-            ridingLayer.eachLayer(layer => {
-                if (layer.ridingName === selectedRiding) {
-                    map.fitBounds(layer.getBounds());
-                    layer.fire("click");
-                }
-            });
-        });
     </script>
 </body>
 </html>
