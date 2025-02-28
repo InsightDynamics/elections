@@ -33,9 +33,10 @@
 
         // Function to get the color based on the leading party
         function getColor(party) {
-            return party === "PC" ? "blue" :
-                   party === "Liberal" ? "red" :
-                   party === "NDP" ? "orange" : "gray";
+            if (party === "Ontario PC") return "blue";
+            if (party === "Ontario Liberal Party") return "red";
+            if (party === "Ontario NDP/NPD") return "orange";
+            return "gray"; // Default if no matching party
         }
 
         function formatResults(results) {
@@ -57,18 +58,17 @@
 
                             // Sort the candidates by vote count in descending order to get the leading party
                             if (result && result.length > 0) {
-                                result.sort((a, b) => b.Votes - a.Votes); // Sort by vote count
+                                result.sort((a, b) => parseInt(b.Votes.replace(/,/g, '')) - parseInt(a.Votes.replace(/,/g, ''))); // Sort by vote count
 
                                 let leadingParty = result[0].Party; // Get the leading party
-                                let leadingPartyAbbr = leadingParty === "Ontario PC" ? "PC" :
-                                                       leadingParty === "Ontario Liberal Party" ? "Liberal" :
-                                                       leadingParty === "Ontario NDP/NPD" ? "NDP" : "";
+                                // Use the full party name to get the color
+                                let color = getColor(leadingParty);
 
                                 // Return style with 30% fill opacity and color based on leading party
                                 return {
                                     color: "black",
                                     weight: 1,
-                                    fillColor: getColor(leadingPartyAbbr), // Dynamically set fillColor based on leading party
+                                    fillColor: color, // Dynamically set fillColor based on leading party
                                     fillOpacity: 0.3 // Set fill opacity to 30%
                                 };
                             } else {
