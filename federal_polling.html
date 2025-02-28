@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Canadian Federal Polling Data</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -15,142 +15,98 @@
         body {
             font-family: 'Inter', sans-serif;
             text-align: center;
-            background-color: #f8f6f2; /* Soft cream background */
+            background-color: #f8f6f2;
             color: #333;
             padding: 15px;
+            overflow-x: hidden; /* Prevents side-scrolling */
         }
 
         .container {
-            width: 90%;
-            max-width: 1100px;
+            width: 100%;
+            max-width: 480px; /* Ensures perfect mobile fit */
             margin: auto;
-            padding: 25px;
-            background: #2d2a26; /* Charcoal gray */
+            padding: 20px;
+            background: #2d2a26;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            color: #f4ede4; /* Soft cream text */
+            color: #f4ede4;
         }
 
         h1 {
-            font-size: 2em;
+            font-size: 1.8em; /* Adjusted for mobile */
             font-weight: 700;
-            color: #d4af37; /* Gold */
+            color: #d4af37;
             margin-bottom: 10px;
         }
 
         h2 {
-            font-size: 1.3em;
-            color: #c2a677; /* Muted gold */
-            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #c2a677;
+            margin-bottom: 15px;
         }
 
         .table-container {
-            overflow-x: auto;
             width: 100%;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            min-width: 600px;
-            background: #f8f6f2; /* Soft cream */
-            color: #2d2a26; /* Dark text for readability */
+            margin: 10px 0;
+            background: #f8f6f2;
+            color: #2d2a26;
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            border-bottom: 1px solid #aaa;
-            font-size: 16px;
+            font-size: 14px; /* Reduced for better fit */
         }
 
         th {
-            background-color: #d4af37; /* Gold header */
+            background-color: #d4af37;
             color: #2d2a26;
         }
 
         tr:nth-child(even) {
-            background-color: #ece7dc; /* Light cream rows */
+            background-color: #ece7dc;
         }
 
         .note {
-            font-size: 0.9em;
-            color: #d4af37; /* Gold */
-            margin-top: 15px;
+            font-size: 0.85em;
+            color: #d4af37;
+            margin-top: 10px;
         }
 
         .button-container {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .home-button {
-            display: inline-block;
-            padding: 12px 20px;
+            display: block;
+            padding: 12px;
             font-size: 16px;
             font-weight: 600;
             color: #2d2a26;
-            background-color: #d4af37; /* Gold */
+            background-color: #d4af37;
             border: none;
             border-radius: 8px;
             text-decoration: none;
             transition: 0.3s;
+            width: 100%;
         }
 
         .home-button:hover {
-            background-color: #b99a2e; /* Darker gold */
+            background-color: #b99a2e;
         }
 
-        /* Responsive Design */
-        @media screen and (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            h2 {
-                font-size: 1.2em;
-            }
-
-            th, td {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            table {
-                min-width: 100%;
-                font-size: 14px;
-            }
-
-            .home-button {
-                width: 90%;
-                padding: 14px;
-                font-size: 16px;
-            }
-        }
-
+        /* Perfect Mobile Fit */
         @media screen and (max-width: 480px) {
-            h1 {
-                font-size: 1.6em;
-            }
-
-            h2 {
-                font-size: 1.1em;
-            }
-
-            th, td {
-                font-size: 13px;
-            }
-
-            .home-button {
-                font-size: 15px;
-                padding: 12px;
-                width: 100%;
-            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1em; }
+            th, td { font-size: 13px; }
+            .home-button { font-size: 15px; }
         }
     </style>
 </head>
@@ -165,38 +121,38 @@
                 <thead>
                     <tr>
                         <th>Party</th>
-                        <th>Popular Vote Projection</th>
-                        <th>Seats Projection</th>
-                        <th>Seat Change</th>
+                        <th>Vote %</th>
+                        <th>Seats</th>
+                        <th>Change</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Conservative Party of Canada (CPC)</td>
+                        <td>CPC</td>
                         <td>43% ± 4%</td>
                         <td>170 ± 10</td>
                         <td>+20</td>
                     </tr>
                     <tr>
-                        <td>Liberal Party of Canada (LPC)</td>
+                        <td>LPC</td>
                         <td>22% ± 3%</td>
                         <td>90 ± 8</td>
                         <td>-30</td>
                     </tr>
                     <tr>
-                        <td>New Democratic Party (NDP)</td>
+                        <td>NDP</td>
                         <td>18% ± 3%</td>
                         <td>40 ± 5</td>
                         <td>+5</td>
                     </tr>
                     <tr>
-                        <td>Bloc Québécois (BQ)</td>
+                        <td>BQ</td>
                         <td>8% ± 1%</td>
                         <td>32 ± 3</td>
                         <td>+2</td>
                     </tr>
                     <tr>
-                        <td>Green Party of Canada (GPC)</td>
+                        <td>GPC</td>
                         <td>4% ± 2%</td>
                         <td>2 ± 1</td>
                         <td>0</td>
@@ -205,8 +161,8 @@
             </table>
         </div>
 
-        <p class="note">Data Source: <a href="https://338canada.com/federal.htm" style="color: #d4af37;">338Canada Federal Projection</a></p>
-        <p>More data coming soon</p>
+        <p class="note">Data Source: <a href="https://338canada.com/federal.htm" style="color: #d4af37;">338Canada</a></p>
+        <p>More data coming soon.</p>
 
         <div class="button-container">
             <a href="index.html" class="home-button">🏠 Home</a>
