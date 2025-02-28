@@ -7,8 +7,21 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
-        #map { height: 600px; width: 100%; }
+        #map { height: 600px; width: 100%; margin-bottom: 20px; }
         #info { padding: 10px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
     </style>
 </head>
 <body>
@@ -18,7 +31,7 @@
     </select>
     <div id="info">Click on a riding to view results.</div>
     <div id="map"></div>
-    
+
     <script>
         var map = L.map('map').setView([50, -85], 5); // Centered on Ontario
         
@@ -28,83 +41,102 @@
 
         var geojsonData = "electoral_districts.geojson"; // Load the GeoJSON file
         var electionResults = "election_results.json"; // Load election results
-
         var ridingLayer;
+        var electionData = {}; // Store election results globally
 
-        // Function to get the color based on the leading party
+        // Function to get color based on the leading party
         function getColor(party) {
             if (party === "PC Party of Ontario") return "blue";
             if (party === "Ontario Liberal Party") return "red";
             if (party === "Ontario NDP/NPD") return "orange";
-            return "gray"; // Default if no matching party
+            if (party === "Green Party of Ontario GPO") return "green";
+            return "gray"; // Default for unknown parties
         }
 
+        // Format results as a table
         function formatResults(results) {
             if (!results || results.length === 0) {
-                return "No data available";
+                return "<p>No data available</p>";
             }
-            return results.map(r => `<strong>${r.Candidate}</strong> (${r.Party}): ${r.Votes} votes (${r.Percentage}%)`).join("<br>");
+
+            let table = `<table>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Party</th>
+                                <th>Votes</th>
+                                <th>Percentage</th>
+                            </tr>`;
+
+            results.forEach(r => {
+                table += `<tr>
+                            <td>${r.Candidate}</td>
+                            <td>${r.Party}</td>
+                            <td>${r.Votes}</td>
+                            <td>${r.Percentage}</td>
+                          </tr>`;
+            });
+
+            table += `</table>`;
+            return table;
         }
 
-        fetch(geojsonData).then(response => response.json()).then(data => {
-            ridingLayer = L.geoJson(data, {
-                style: function (feature) {
-                    // Fetch the election results
-                    return fetch(electionResults)
-                        .then(response => response.json())
-                        .then(results => {
-                            let riding = feature.properties.ENGLISH_NA;
-                            let result = results[riding];
+        // Load election results first
+        fetch(electionResults)
+            .then(response => response.json())
+            .then(data => {
+                electionData = data; // Store election results globally
 
-                            if (result && result.length > 0) {
-                                // Sort the candidates by vote count in descending order to get the leading party
-                                result.sort((a, b) => {
-                                    let aVotes = parseInt(a.Votes.replace(/,/g, ''));
-                                    let bVotes = parseInt(b.Votes.replace(/,/g, ''));
-                                    return bVotes - aVotes; // Sort descending
+                // Now load the map with colors applied
+                fetch(geojsonData)
+                    .then(response => response.json())
+                    .then(geoData => {
+                        ridingLayer = L.geoJson(geoData, {
+                            style: function (feature) {
+                                let riding = feature.properties.ENGLISH_NA;
+                                let result = electionData[riding];
+
+                                if (result && result.length > 0) {
+                                    // Sort to find the candidate with the most votes
+                                    result.sort((a, b) => parseInt(b.Votes.replace(/,/g, '')) - parseInt(a.Votes.replace(/,/g, '')));
+                                    let leadingParty = result[0].Party;
+                                    let color = getColor(leadingParty);
+
+                                    return {
+                                        color: "black",
+                                        weight: 1,
+                                        fillColor: color, // Apply color dynamically
+                                        fillOpacity: 0.5 // Set fill opacity to 50% for better visibility
+                                    };
+                                } else {
+                                    return {
+                                        color: "black",
+                                        weight: 1,
+                                        fillColor: "gray",
+                                        fillOpacity: 0.3
+                                    };
+                                }
+                            },
+                            onEachFeature: function (feature, layer) {
+                                layer.on("click", function () {
+                                    let riding = feature.properties.ENGLISH_NA;
+                                    let result = electionData[riding];
+                                    document.getElementById("info").innerHTML = `<h3>${riding}</h3>${formatResults(result)}`;
                                 });
-
-                                let leadingParty = result[0].Party; // Get the party with the most votes
-                                let color = getColor(leadingParty); // Get the color for the leading party
-
-                                // Return the style with the corresponding color and 30% opacity
-                                return {
-                                    color: "black",
-                                    weight: 1,
-                                    fillColor: color, // Apply color based on the leading party
-                                    fillOpacity: 0.3 // Set fill opacity to 30%
-                                };
-                            } else {
-                                return {
-                                    color: "black",
-                                    weight: 1,
-                                    fillColor: "gray", // Default if no result
-                                    fillOpacity: 0.3
-                                };
                             }
-                        });
-                },
-                onEachFeature: function (feature, layer) {
-                    layer.on("click", function () {
-                        fetch(electionResults).then(response => response.json()).then(results => {
-                            let riding = feature.properties.ENGLISH_NA;
-                            let result = formatResults(results[riding]);
-                            document.getElementById("info").innerHTML = `<h3>${riding}</h3><p>${result}</p>`;
+                        }).addTo(map);
+
+                        // Populate dropdown with riding names
+                        let select = document.getElementById("riding-select");
+                        geoData.features.forEach(feature => {
+                            let option = document.createElement("option");
+                            option.value = feature.properties.ENGLISH_NA;
+                            option.textContent = feature.properties.ENGLISH_NA;
+                            select.appendChild(option);
                         });
                     });
-                }
-            }).addTo(map);
-
-            // Populate dropdown
-            let select = document.getElementById("riding-select");
-            data.features.forEach(feature => {
-                let option = document.createElement("option");
-                option.value = feature.properties.ENGLISH_NA;
-                option.textContent = feature.properties.ENGLISH_NA;
-                select.appendChild(option);
             });
-        });
 
+        // Handle dropdown selection
         document.getElementById("riding-select").addEventListener("change", function () {
             let selectedRiding = this.value;
             if (selectedRiding) {
