@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Ontario Election Results (Table)</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #343a40;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .button-container {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            width: auto;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease-in-out;
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #004494;
+        }
+
+        .dropdown-container {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            width: 100%;
+            max-width: 500px;
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #0056b3;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            text-align: center;
+            appearance: none;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f1f3f5;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #0056b3;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2025 Ontario Election Results</h1>
+
+        <div class="button-container">
+            <a href="results.html" class="btn">Back to Map</a>
+            <a href="index.html" class="btn">Back to Home</a>
+        </div>
+
+        <div class="dropdown-container">
+            <select id="ridingDropdown" class="dropdown" onchange="displayResults()">
+                <option value="">📍 Select a Riding</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Party</th>
+                        <th>Votes</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <p class="note">Data Source: <a href="https://elections.on.ca" style="color: #0056b3;">Elections Ontario</a></p>
+    </div>
+
+    <script>
+        let electionData = {};
+
+        async function fetchResults() {
+            try {
+                const response = await fetch("election_results.json");
+                electionData = await response.json();
+                populateDropdown(electionData);
+            } catch (error) {
+                console.error("Error loading election data:", error);
+            }
+        }
+
+        function populateDropdown(data) {
+            const dropdown = document.getElementById("ridingDropdown");
+            let ridings = Object.keys(data).sort();
+            ridings.forEach(riding => {
+                let option = document.createElement("option");
+                option.value = riding;
+                option.textContent = riding;
+                dropdown.appendChild(option);
+            });
+        }
+
+        function displayResults() {
+            const selectedRiding = document.getElementById("ridingDropdown").value;
+            const tableBody = document.querySelector("#results-table tbody");
+            tableBody.innerHTML = "";
+
+            if (selectedRiding && electionData[selectedRiding]) {
+                electionData[selectedRiding].forEach(result => {
+                    let row = `<tr>
+                        <td>${result.Candidate}</td>
+                        <td>${result.Party}</td>
+                        <td>${result.Votes.toLocaleString()}</td>
+                        <td>${result.Percentage}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            }
+        }
+
+        fetchResults();
+    </script>
+</body>
+</html>

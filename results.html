@@ -117,7 +117,9 @@
     </header>
 
     <div class="button-container">
-        <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        <a href="index.html" class="btn btn-primary">Back to Home</a><br><br>
+        <a href="ontario_results_table.html" class="btn btn-primary">Table Results</a><br><br>
+        <!--<a href="ontario_election_analysis.html" class="btn btn-primary">Ontario Election Analysis</a>-->
     </div>
 
     <div id="party-summary" class="card">Loading election data...</div>
@@ -143,7 +145,7 @@
     </footer>
 
     <script>
-        var map = L.map('map').setView([50, -85], 5);
+        var map = L.map('map').setView([43.7, -79.42], 7);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);

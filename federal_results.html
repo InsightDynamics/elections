@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Election Night Results</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        header {
+            background: #002855;
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom: 5px solid #001c3d;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .subheading {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .live-banner {
+            background: red;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-size: 1.1em;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .countdown-container {
+            margin: 20px auto;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        .button-container {
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover { background-color: #0056b3; }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            display: none;
+        }
+        .btn-danger:hover { background-color: #c82333; }
+
+        #map {
+            height: 500px;
+            width: 95%;
+            margin: 15px auto;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-message {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin: 15px auto;
+            max-width: 600px;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 14px;
+            color: #555;
+            background: #e9ecef;
+            border-top: 1px solid #ccc;
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .subheading { font-size: 1em; }
+            .btn { padding: 12px 16px; font-size: 14px; }
+            #map { height: 400px; }
+            .status-message { font-size: 14px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Federal Election Night 2025</h1>
+        <!--<p class="subheading">Live results as polls close across the country</p>-->
+    </header>
+
+    <div class="live-banner">📡 Election Coverage Begins on October 26, 2025</div>
+
+    <div class="countdown-container">
+        🕒 Results Start In: <span id="countdown"></span>
+    </div>
+
+    <div class="button-container">
+        <a href="index.html" class="btn btn-primary">Back to Home</a><br><br>
+       <!-- <a href="federal_results_table.html" class="btn btn-primary">View Table Results</a><br><br>-->
+    </div>
+
+    <div id="map"></div>
+
+    <div class="status-message">
+        🗳️ Stay tuned!
+    </div>
+
+    <footer>
+        <p>Disclaimer: Results are unofficial until certified. Data may update throughout the night.</p>
+        <p>Last updated: <strong id="last-updated">Loading...</strong></p>
+    </footer>
+
+    <script>
+        function updateCountdown() {
+            const electionDate = new Date("2025-10-26T19:00:00Z");
+            const now = new Date();
+            const timeDiff = electionDate - now;
+
+            if (timeDiff <= 0) {
+                document.getElementById("countdown").innerHTML = "📊 Results Are Coming In!";
+                document.querySelector(".live-banner").innerHTML = "🔴 Live Results Updating...";
+                document.querySelector(".status-message").innerHTML = "📊 Results are being counted. Stay tuned!";
+            } else {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        document.getElementById("last-updated").innerText = new Date().toLocaleTimeString();
+
+        var map = L.map('map').setView([45, -95], 4);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+    </script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canadian Federal Polling Data</title>
+    <title>Canadian Federal Polling Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,25 +15,26 @@
         body {
             font-family: 'Inter', sans-serif;
             text-align: center;
-            background-color: #f8f6f2;
+            background-color: #f9f8f3;
             color: #333;
             padding: 15px;
-            overflow-x: hidden; /* Prevents side-scrolling */
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 480px; /* Ensures perfect mobile fit */
+            max-width: 600px;
             margin: auto;
             padding: 20px;
             background: #2d2a26;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
             color: #f4ede4;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         h1 {
-            font-size: 1.8em; /* Adjusted for mobile */
+            font-size: 1.8em;
             font-weight: 700;
             color: #d4af37;
             margin-bottom: 10px;
@@ -45,15 +46,37 @@
             margin-bottom: 15px;
         }
 
+        .search-container {
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            text-align: center;
+            background: #fff;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #b99a2e;
+            outline: none;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
         .table-container {
             width: 100%;
             overflow-x: auto;
+            margin-bottom: 15px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
             background: #f8f6f2;
             color: #2d2a26;
         }
@@ -61,12 +84,19 @@
         th, td {
             padding: 10px;
             text-align: center;
-            font-size: 14px; /* Reduced for better fit */
+            font-size: 14px;
+            border-bottom: 1px solid #ccc;
         }
 
         th {
             background-color: #d4af37;
             color: #2d2a26;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        th:hover {
+            background-color: #b99a2e;
         }
 
         tr:nth-child(even) {
@@ -93,12 +123,18 @@
             border: none;
             border-radius: 8px;
             text-decoration: none;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
             width: 100%;
         }
 
         .home-button:hover {
             background-color: #b99a2e;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Perfect Mobile Fit */
@@ -107,23 +143,29 @@
             h2 { font-size: 1em; }
             th, td { font-size: 13px; }
             .home-button { font-size: 15px; }
+            .search-input { font-size: 14px; padding: 8px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Canadian Federal Polling Data</h1>
+        <h1>Canadian Federal Polling Dashboard</h1>
         <h2>As of February 23, 2025</h2>
 
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search party..." onkeyup="filterTable()">
+        </div>
+
         <div class="table-container">
-            <table>
+            <table id="pollingTable">
                 <thead>
                     <tr>
-                        <th>Party</th>
-                        <th>Vote %</th>
-                        <th>Seats</th>
-                        <th>Change</th>
+                        <th onclick="sortTable(0)">Party 🔽</th>
+                        <th onclick="sortTable(1)">Vote % 🔽</th>
+                        <th onclick="sortTable(2)">Seats 🔽</th>
+                        <th onclick="sortTable(3)">Change 🔽</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -168,6 +210,26 @@
             <a href="index.html" class="home-button">🏠 Home</a>
         </div>
     </div>
+
+    <script>
+        function filterTable() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let table = document.getElementById("pollingTable");
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let party = rows[i].getElementsByTagName("td")[0].textContent.toLowerCase();
+                rows[i].style.display = party.includes(input) ? "" : "none";
+            }
+        }
+
+        function sortTable(column) {
+            let table = document.getElementById("pollingTable");
+            let rows = Array.from(table.rows).slice(1);
+            rows.sort((a, b) => a.cells[column].textContent.localeCompare(b.cells[column].textContent));
+            rows.forEach(row => table.appendChild(row));
+        }
+    </script>
 
 </body>
 </html>
