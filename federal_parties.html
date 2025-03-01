@@ -18,93 +18,62 @@
             background-color: #f9f8f3;
             color: #2c2c2c;
             padding: 15px;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 30px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 25px;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease-in-out;
         }
 
         h1 {
-            font-size: 2.5em;
+            font-size: 2rem;
             font-weight: 700;
             color: #b8860b;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .party-box {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 25px;
+            display: none;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: left;
-            display: none; /* Initially hide all party boxes */
+            margin: 20px auto;
+            max-width: 900px;
         }
 
         .party-box h2 {
-            font-size: 2em;
+            font-size: 1.8rem;
             color: #b8860b;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-bottom: 3px solid #b8860b;
             padding-bottom: 5px;
         }
 
         .party-box p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 15px;
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            font-size: 16px;
+            margin-bottom: 8px;
         }
 
         .btn-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-primary {
-            background-color: #474A48;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #b8860b;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        footer {
-            margin-top: 50px;
-            padding: 20px;
-            font-size: 16px;
-            background: #e9ecef;
-            text-align: center;
-            width: 100%;
+            margin-top: 15px;
         }
 
         select {
@@ -112,11 +81,21 @@
             font-size: 16px;
             border-radius: 8px;
             border: 1px solid #ccc;
-            margin-top: 20px;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 15px;
+            font-size: 14px;
+            background: #e9ecef;
+            text-align: center;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -125,17 +104,13 @@
 
     <div class="container">
         <h1>🇨🇦 Canadian Federal Political Parties</h1>
-        <p>Detailed breakdown of the major federal political parties in Canada.</p>
-
-        <div class="btn-container">
-            <a href="index.html" class="btn btn-secondary">⬅️ Back to Home</a>
-        </div>
+        <p>Explore the key ideologies and policies of Canada's major political parties.</p>
 
         <!-- Dropdown to select a party -->
         <div>
             <label for="party-select">Select a Party:</label>
             <select id="party-select">
-                <option value="">-- Select a Party --</option>
+                <option value="default">-- Select a Party --</option>
                 <option value="liberal">Liberal Party of Canada (LPC)</option>
                 <option value="conservative">Conservative Party of Canada (CPC)</option>
                 <option value="ndp">New Democratic Party (NDP)</option>
@@ -145,111 +120,73 @@
         </div>
     </div>
 
-    <div id="default" class="party-box" style="display: block; padding: 15px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
-    <h2>🗳️ Understanding the Canadian Political System</h2>
-    
-    <p>Canada operates under a multi-party political system, meaning multiple political parties compete in elections and influence government policies. The five major parties include:</p>
-    
-    <ul>
-        <li><strong>Liberal Party:</strong> Generally supports progressive social policies, economic growth through investment, and environmental initiatives.</li>
-        <li><strong>Conservative Party:</strong> Often prioritizes fiscal responsibility, lower taxes, and traditional social values.</li>
-        <li><strong>New Democratic Party (NDP):</strong> Advocates for social justice, workers’ rights, and expanded public services.</li>
-        <li><strong>Bloc Québécois:</strong> Primarily represents the interests of Quebec, focusing on provincial autonomy and cultural identity.</li>
-        <li><strong>Green Party:</strong> Emphasizes environmental protection, sustainable policies, and social justice.</li>
-    </ul>
+    <div id="default" class="party-box" style="display: block;">
+        <h2>🗳️ Understanding the Canadian Political System</h2>
+        <p>Canada operates under a multi-party system where different political parties compete in elections and influence government policies. The five major parties include:</p>
 
-    <p>Each party has its own stance on social, economic, and environmental issues. However, political beliefs do not always fit neatly into one category.</p>
+        <ul>
+            <li><strong>Liberal Party:</strong> Supports progressive policies and government investment in social programs.</li>
+            <li><strong>Conservative Party:</strong> Advocates for lower taxes, free markets, and fiscal responsibility.</li>
+            <li><strong>New Democratic Party (NDP):</strong> Focuses on social justice, labor rights, and public healthcare.</li>
+            <li><strong>Bloc Québécois:</strong> Represents Quebec’s interests, emphasizing autonomy and cultural identity.</li>
+            <li><strong>Green Party:</strong> Prioritizes environmental sustainability and climate action.</li>
+        </ul>
 
-    <blockquote style="font-style: italic; color: #555; border-left: 4px solid #007bff; padding-left: 10px;">
-        "You can support policies from multiple parties. Your political beliefs don’t have to align perfectly with one party—you may find yourself agreeing with different aspects from each."
-    </blockquote>
+        <blockquote style="font-style: italic; color: #555; border-left: 4px solid #007bff; padding-left: 10px;">
+            "Your political beliefs don’t have to align perfectly with one party—you may find yourself agreeing with different aspects from each."
+        </blockquote>
 
-    <p>Use the dropdown above to explore each party’s history, ideology, and key policies.</p>
-</div>
+        <p>Use the dropdown above to explore each party’s history, ideology, and key policies.</p>
+    </div>
 
-
-    <!-- Liberal Party -->
+    <!-- Party Sections -->
     <div id="liberal" class="party-box">
         <h2>🔴 Liberal Party of Canada (LPC)</h2>
-        <p><strong>Founded:</strong> 1867</p>
-        <p><strong>Leader:</strong> Undergoing a leadership race</p>
         <p><strong>Ideology:</strong> Centre to Centre-Left</p>
-        <p><strong>Notable Achievements:</strong> Universal healthcare, Charter of Rights and Freedoms, legalizing same-sex marriage</p>
-        <p>The Liberal Party supports progressive policies, multiculturalism, and government intervention in the economy. It advocates for universal healthcare, environmental protections, and economic policies that blend market competition with social safety nets.</p>
-        <p><strong>Key Policies:</strong></p>
         <ul>
-            <li>Carbon pricing and climate action</li>
-            <li>Affordable childcare program</li>
-            <li>Tax cuts for the middle class</li>
-            <li>Strengthened gun control laws</li>
+            <li>Progressive social policies</li>
+            <li>Government investment in infrastructure</li>
+            <li>Carbon pricing & climate initiatives</li>
         </ul>
     </div>
 
-    <!-- Conservative Party -->
     <div id="conservative" class="party-box">
         <h2>🔵 Conservative Party of Canada (CPC)</h2>
-        <p><strong>Founded:</strong> 2003 (merger of PC & Reform Party)</p>
-        <p><strong>Leader:</strong> Pierre Poilievre</p>
         <p><strong>Ideology:</strong> Centre-Right to Right</p>
-        <p><strong>Notable Achievements:</strong> Free trade agreements, economic recovery plans, tax cuts</p>
-        <p>The Conservatives emphasize lower taxes, free-market policies, and limited government intervention. They advocate for strong national defense, reduced corporate regulations, and balancing the budget.</p>
-        <p><strong>Key Policies:</strong></p>
         <ul>
-            <li>Tax cuts for businesses and individuals</li>
-            <li>Pipeline expansion and energy independence</li>
-            <li>Increased funding for law enforcement</li>
-            <li>Opposition to carbon tax</li>
+            <li>Lower taxes & smaller government</li>
+            <li>Support for resource industries</li>
+            <li>Focus on law and order</li>
         </ul>
     </div>
 
-    <!-- NDP -->
     <div id="ndp" class="party-box">
         <h2>🟠 New Democratic Party (NDP)</h2>
-        <p><strong>Founded:</strong> 1961</p>
-        <p><strong>Leader:</strong> Jagmeet Singh</p>
-        <p><strong>Ideology:</strong> Left-Wing, Democratic Socialism</p>
-        <p><strong>Notable Achievements:</strong> Expanding labor rights, advocating universal healthcare, increasing minimum wage</p>
-        <p>The NDP prioritizes workers' rights, wealth redistribution, and public services. It supports increasing corporate taxes, expanding universal healthcare, and improving social welfare programs.</p>
-        <p><strong>Key Policies:</strong></p>
+        <p><strong>Ideology:</strong> Left-Wing</p>
         <ul>
-            <li>Universal pharmacare and dental care</li>
+            <li>Expanding public healthcare</li>
+            <li>Stronger labor rights</li>
             <li>Higher taxes on the wealthy</li>
-            <li>Strengthened labor rights</li>
-            <li>Increased investment in affordable housing</li>
         </ul>
     </div>
 
-    <!-- Bloc Québécois -->
     <div id="bloc" class="party-box">
         <h2>🔵⚪ Bloc Québécois (BQ)</h2>
-        <p><strong>Founded:</strong> 1991</p>
-        <p><strong>Leader:</strong> Yves-François Blanchet</p>
-        <p><strong>Ideology:</strong> Quebec Nationalism, Centre-Left</p>
-        <p><strong>Notable Achievements:</strong> Advocated for Quebec’s rights, influence in minority governments</p>
-        <p>The Bloc Québécois primarily represents Quebec's interests in federal politics. It advocates for Quebec sovereignty, linguistic and cultural protections, and progressive social policies.</p>
-        <p><strong>Key Policies:</strong></p>
+        <p><strong>Ideology:</strong> Quebec Nationalism</p>
         <ul>
-            <li>Strengthening Quebec’s autonomy</li>
-            <li>Increased environmental protections</li>
-            <li>Opposition to pipelines in Quebec</li>
-            <li>Support for stronger immigration policies</li>
+            <li>Quebec autonomy & sovereignty</li>
+            <li>Opposition to federal pipelines in Quebec</li>
+            <li>Advocacy for French language rights</li>
         </ul>
     </div>
 
-    <!-- Green Party -->
     <div id="green" class="party-box">
         <h2>🟢 Green Party of Canada (GPC)</h2>
-        <p><strong>Founded:</strong> 1983</p>
-        <p><strong>Leader:</strong> Elizabeth May (currently interim leader)</p>
-        <p><strong>Ideology:</strong> Green politics, Ecological sustainability</p>
-        <p><strong>Notable Achievements:</strong> Pioneered environmental policies, advocating for green energy transition</p>
-        <p>The Green Party focuses on environmental issues, ecological sustainability, and social justice. It advocates for aggressive climate action, transitioning to renewable energy, and protecting biodiversity.</p>
-        <p><strong>Key Policies:</strong></p>
+        <p><strong>Ideology:</strong> Environmentalism</p>
         <ul>
             <li>Carbon-free economy by 2050</li>
-            <li>Affordable housing and clean water for all</li>
-            <li>Green New Deal to stimulate green jobs</li>
-            <li>Preservation of natural habitats and biodiversity</li>
+            <li>Renewable energy investment</li>
+            <li>Social justice & human rights</li>
         </ul>
     </div>
 
@@ -260,13 +197,15 @@
     <script>
         document.getElementById('party-select').addEventListener('change', function () {
             const selectedParty = this.value;
-            const partyBoxes = document.querySelectorAll('.party-box');
-            partyBoxes.forEach(box => box.style.display = 'none'); // Hide all party boxes
+            document.querySelectorAll('.party-box').forEach(box => box.style.display = 'none');
 
-            if (selectedParty) {
-                document.getElementById(selectedParty).style.display = 'block'; // Show selected party box
+            if (selectedParty === "default") {
+                document.getElementById("default").style.display = 'block';
+            } else {
+                document.getElementById(selectedParty).style.display = 'block';
             }
         });
     </script>
+
 </body>
 </html>
