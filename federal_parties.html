@@ -18,7 +18,7 @@
             background-color: #f9f8f3;
             color: #2c2c2c;
             padding: 15px;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
         .container {
@@ -27,34 +27,53 @@
             padding: 25px;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease-in-out;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: #b8860b;
             margin-bottom: 15px;
         }
 
-        .btn {
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            cursor: pointer;
-            border: none;
-            background-color: #474A48;
-            color: white;
-            margin-top: 15px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        .party-box {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            display: none; /* Initially hidden */
         }
 
-        .btn:hover {
-            background-color: #333;
+        .party-box h2 {
+            font-size: 1.8rem;
+            color: #b8860b;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #b8860b;
+            padding-bottom: 5px;
+        }
+
+        .party-box p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .btn-container {
+            margin-top: 15px;
         }
 
         select {
@@ -67,64 +86,8 @@
             max-width: 300px;
         }
 
-        /* Modal Styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 10px;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .modal-content h2 {
-            font-size: 1.5rem;
-            color: #b8860b;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #b8860b;
-            padding-bottom: 5px;
-        }
-
-        .modal-content p {
-            font-size: 15px;
-            color: #444;
-            margin-bottom: 10px;
-        }
-
-        .close-btn {
-            background: #b8860b;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            float: right;
-            transition: 0.3s;
-        }
-
-        .close-btn:hover {
-            background: #8a6d0b;
-        }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -156,26 +119,71 @@
                 <option value="green">Green Party of Canada (GPC)</option>
             </select>
         </div>
-
-        <!-- Button to Open Modal -->
-        <button class="btn" id="info-btn">ℹ️ Learn More About the System</button>
     </div>
 
-    <!-- Modal -->
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" id="close-modal">✖ Close</button>
-            <h2>🗳️ The Canadian Political System</h2>
-            <p>Canada has a multi-party system where different parties compete in elections and influence policies. The five major parties are:</p>
-            <ul>
-                <li><strong>Liberal Party:</strong> Supports social programs and progressive policies.</li>
-                <li><strong>Conservative Party:</strong> Advocates for lower taxes and economic freedom.</li>
-                <li><strong>NDP:</strong> Focuses on labor rights and public healthcare.</li>
-                <li><strong>Bloc Québécois:</strong> Represents Quebec’s interests and autonomy.</li>
-                <li><strong>Green Party:</strong> Prioritizes sustainability and climate action.</li>
-            </ul>
-            <p><em>"You don’t have to fully agree with one party—many people support ideas from multiple parties."</em></p>
-        </div>
+    <!-- Default Info (Hidden when a party is selected) -->
+    <div id="defaul" class="party-box" style="display: block;">
+        <h2>🗳️ Understanding the Canadian Political System</h2>
+        <p>Canada has a multi-party system where different parties compete in elections and influence policies. The five major parties are:</p>
+        <ul>
+            <li><strong>Liberal Party:</strong> Supports social programs and progressive policies.</li>
+            <li><strong>Conservative Party:</strong> Advocates for lower taxes and economic freedom.</li>
+            <li><strong>NDP:</strong> Focuses on labor rights and public healthcare.</li>
+            <li><strong>Bloc Québécois:</strong> Represents Quebec’s interests and autonomy.</li>
+            <li><strong>Green Party:</strong> Prioritizes sustainability and climate action.</li>
+        </ul>
+        <p><em>"You don’t have to fully agree with one party—many people support ideas from multiple parties."</em></p>
+    </div>
+
+    <!-- Party Sections -->
+    <div id="liberal" class="party-box">
+        <h2>🔴 Liberal Party of Canada (LPC)</h2>
+        <p><strong>Ideology:</strong> Centre to Centre-Left</p>
+        <ul>
+            <li>Progressive social policies</li>
+            <li>Government investment in infrastructure</li>
+            <li>Carbon pricing & climate initiatives</li>
+        </ul>
+    </div>
+
+    <div id="conservative" class="party-box">
+        <h2>🔵 Conservative Party of Canada (CPC)</h2>
+        <p><strong>Ideology:</strong> Centre-Right to Right</p>
+        <ul>
+            <li>Lower taxes & smaller government</li>
+            <li>Support for resource industries</li>
+            <li>Focus on law and order</li>
+        </ul>
+    </div>
+
+    <div id="ndp" class="party-box">
+        <h2>🟠 New Democratic Party (NDP)</h2>
+        <p><strong>Ideology:</strong> Left-Wing</p>
+        <ul>
+            <li>Expanding public healthcare</li>
+            <li>Stronger labor rights</li>
+            <li>Higher taxes on the wealthy</li>
+        </ul>
+    </div>
+
+    <div id="bloc" class="party-box">
+        <h2>🔵⚪ Bloc Québécois (BQ)</h2>
+        <p><strong>Ideology:</strong> Quebec Nationalism</p>
+        <ul>
+            <li>Quebec autonomy & sovereignty</li>
+            <li>Opposition to federal pipelines in Quebec</li>
+            <li>Advocacy for French language rights</li>
+        </ul>
+    </div>
+
+    <div id="green" class="party-box">
+        <h2>🟢 Green Party of Canada (GPC)</h2>
+        <p><strong>Ideology:</strong> Environmentalism</p>
+        <ul>
+            <li>Carbon-free economy by 2050</li>
+            <li>Renewable energy investment</li>
+            <li>Social justice & human rights</li>
+        </ul>
     </div>
 
     <footer>
@@ -187,27 +195,10 @@
             const selectedParty = this.value;
             document.querySelectorAll('.party-box').forEach(box => box.style.display = 'none');
 
-            if (selectedParty !== "default") {
+            if (selectedParty === "default") {
+                document.getElementById("default").style.display = 'block';
+            } else {
                 document.getElementById(selectedParty).style.display = 'block';
-            }
-        });
-
-        // Modal functionality
-        const infoBtn = document.getElementById('info-btn');
-        const modal = document.getElementById('info-modal');
-        const closeModal = document.getElementById('close-modal');
-
-        infoBtn.addEventListener('click', function () {
-            modal.style.display = 'flex';
-        });
-
-        closeModal.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
             }
         });
     </script>
