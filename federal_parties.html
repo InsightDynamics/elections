@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canadian Federal Parties</title>
+    <title>Canadian Federal Political Parties</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -46,6 +46,7 @@
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             text-align: left;
+            display: none; /* Initially hide all party boxes */
         }
 
         .party-box h2 {
@@ -106,6 +107,14 @@
             width: 100%;
         }
 
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -121,10 +130,23 @@
         <div class="btn-container">
             <a href="index.html" class="btn btn-secondary">⬅️ Back to Home</a>
         </div>
+
+        <!-- Dropdown to select a party -->
+        <div>
+            <label for="party-select">Select a Party:</label>
+            <select id="party-select">
+                <option value="">-- Select a Party --</option>
+                <option value="liberal">Liberal Party of Canada (LPC)</option>
+                <option value="conservative">Conservative Party of Canada (CPC)</option>
+                <option value="ndp">New Democratic Party (NDP)</option>
+                <option value="bloc">Bloc Québécois (BQ)</option>
+                <option value="green">Green Party of Canada (GPC)</option>
+            </select>
+        </div>
     </div>
 
     <!-- Liberal Party -->
-    <div class="party-box">
+    <div id="liberal" class="party-box">
         <h2>🔴 Liberal Party of Canada (LPC)</h2>
         <p><strong>Founded:</strong> 1867</p>
         <p><strong>Leader:</strong> Undergoing a leadership race</p>
@@ -141,7 +163,7 @@
     </div>
 
     <!-- Conservative Party -->
-    <div class="party-box">
+    <div id="conservative" class="party-box">
         <h2>🔵 Conservative Party of Canada (CPC)</h2>
         <p><strong>Founded:</strong> 2003 (merger of PC & Reform Party)</p>
         <p><strong>Leader:</strong> Pierre Poilievre</p>
@@ -158,7 +180,7 @@
     </div>
 
     <!-- NDP -->
-    <div class="party-box">
+    <div id="ndp" class="party-box">
         <h2>🟠 New Democratic Party (NDP)</h2>
         <p><strong>Founded:</strong> 1961</p>
         <p><strong>Leader:</strong> Jagmeet Singh</p>
@@ -175,7 +197,7 @@
     </div>
 
     <!-- Bloc Québécois -->
-    <div class="party-box">
+    <div id="bloc" class="party-box">
         <h2>🔵⚪ Bloc Québécois (BQ)</h2>
         <p><strong>Founded:</strong> 1991</p>
         <p><strong>Leader:</strong> Yves-François Blanchet</p>
@@ -187,18 +209,41 @@
             <li>Strengthening Quebec’s autonomy</li>
             <li>Increased environmental protections</li>
             <li>Opposition to pipelines in Quebec</li>
-            <li>Support for stronger immigration policies in Quebec</li>
+            <li>Support for stronger immigration policies</li>
         </ul>
     </div>
 
-    <div class="btn-container">
-        <a href="political_quiz.html" class="btn btn-primary">📝 Which party should I select?</a>
+    <!-- Green Party -->
+    <div id="green" class="party-box">
+        <h2>🟢 Green Party of Canada (GPC)</h2>
+        <p><strong>Founded:</strong> 1983</p>
+        <p><strong>Leader:</strong> Elizabeth May (currently interim leader)</p>
+        <p><strong>Ideology:</strong> Green politics, Ecological sustainability</p>
+        <p><strong>Notable Achievements:</strong> Pioneered environmental policies, advocating for green energy transition</p>
+        <p>The Green Party focuses on environmental issues, ecological sustainability, and social justice. It advocates for aggressive climate action, transitioning to renewable energy, and protecting biodiversity.</p>
+        <p><strong>Key Policies:</strong></p>
+        <ul>
+            <li>Carbon-free economy by 2050</li>
+            <li>Affordable housing and clean water for all</li>
+            <li>Green New Deal to stimulate green jobs</li>
+            <li>Preservation of natural habitats and biodiversity</li>
+        </ul>
     </div>
 
     <footer>
-        &copy; 2025 Noah Cornish. All rights reserved. <br>
-        Data sources: <a href="https://elections.ca">Elections Canada</a>
+        <p>&copy; 2025 Canadian Federal Political Parties. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.getElementById('party-select').addEventListener('change', function () {
+            const selectedParty = this.value;
+            const partyBoxes = document.querySelectorAll('.party-box');
+            partyBoxes.forEach(box => box.style.display = 'none'); // Hide all party boxes
+
+            if (selectedParty) {
+                document.getElementById(selectedParty).style.display = 'block'; // Show selected party box
+            }
+        });
+    </script>
 </body>
 </html>
