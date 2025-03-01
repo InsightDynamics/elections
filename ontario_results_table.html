@@ -100,11 +100,12 @@
             appearance: none;
         }
 
-        /* Table Container */
+        /* TABLE STYLING */
         .table-container {
-            overflow-x: auto;
+            width: 100%;
             margin-top: 15px;
             border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         table {
@@ -112,7 +113,6 @@
             border-collapse: collapse;
             background: white;
             font-size: 14px;
-            white-space: nowrap;
         }
 
         th, td {
@@ -139,8 +139,12 @@
             margin-top: 10px;
         }
 
-        /* Mobile Styles */
-        @media (max-width: 600px) {
+        /* MOBILE STYLES */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.7em;
+            }
+
             .btn {
                 font-size: 14px;
                 padding: 10px 14px;
@@ -151,9 +155,52 @@
                 padding: 10px;
             }
 
+            table {
+                font-size: 12px;
+            }
+
             th, td {
+                padding: 6px;
+            }
+
+            .table-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Make table responsive without horizontal scrolling */
+            table th, table td {
+                display: block;
+                width: 100%;
+                text-align: left;
+            }
+
+            table thead {
+                display: none;
+            }
+
+            table tbody tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #dee2e6;
+                padding: 10px;
+                border-radius: 8px;
+                background: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            table tbody tr td {
+                display: flex;
+                justify-content: space-between;
                 padding: 8px;
-                font-size: 13px;
+                font-size: 14px;
+            }
+
+            table tbody tr td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: var(--primary-color);
             }
         }
     </style>
@@ -222,10 +269,10 @@
             if (selectedRiding && electionData[selectedRiding]) {
                 electionData[selectedRiding].forEach(result => {
                     let row = `<tr>
-                        <td>${result.Candidate}</td>
-                        <td>${result.Party}</td>
-                        <td>${result.Votes.toLocaleString()}</td>
-                        <td>${result.Percentage}</td>
+                        <td data-label="Candidate">${result.Candidate}</td>
+                        <td data-label="Party">${result.Party}</td>
+                        <td data-label="Votes">${result.Votes.toLocaleString()}</td>
+                        <td data-label="Percentage">${result.Percentage}</td>
                     </tr>`;
                     tableBody.innerHTML += row;
                 });
