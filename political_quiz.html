@@ -26,15 +26,18 @@
             color: #b8860b;
             margin-bottom: 10px;
         }
-        p.anonymous {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 20px;
+        .progress-container {
+            width: 100%;
+            background: #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
         }
-        .instructions {
-            font-size: 16px;
-            color: #444;
-            margin-bottom: 20px;
+        .progress-bar {
+            height: 12px;
+            width: 0%;
+            background: #b8860b;
+            border-radius: 8px;
+            transition: width 0.4s ease-in-out;
         }
         .question {
             text-align: left;
@@ -78,7 +81,13 @@
     <div class="container">
         <h1>Political Quiz</h1>
         <p class="anonymous">This quiz is for educational purposes only.<br> Your responses are completely anonymous—no data is tracked, stored, or logged.</p> 
-        <p class="instructions">Each question will appear one at a time. Select an answer and click 'Next' to proceed. At the end, you'll see which political party aligns most closely with your views.</p>
+        <p class="instructions">Each question will appear one at a time. Select an answer and click 'Next' to proceed. <br>At the end, you'll see which political party aligns most closely with your views.*</p>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
         <form id="quiz-form">
             <div id="questions-container"></div>
             <button type="button" class="btn" id="next-button" style="display:none;" onclick="nextQuestion()">Next</button>
@@ -87,6 +96,12 @@
         <div id="result"></div>
         
         <a href="index.html" class="back-btn">⬅️ Back to Home</a>
+        <p class="anonymous">
+            *This quiz is not perfect and is not the definitive measure of your political alignment. <br>
+            It is simply a tool to help you explore where you may stand on key issues.<br>
+            Your views are complex and may not fit neatly into one category.
+        </p>
+        
     </div>
     
     <script>
@@ -116,6 +131,7 @@
         let currentQuestionIndex = 0;
         const questionsContainer = document.getElementById("questions-container");
         const nextButton = document.getElementById("next-button");
+        const progressBar = document.getElementById("progress-bar");
         let scores = { left: 0, center: 0, right: 0 };
 
         function showNextQuestion() {
@@ -131,6 +147,7 @@
                     </div>
                 `;
                 nextButton.style.display = "none";
+                updateProgressBar();
             } else {
                 calculateResult();
             }
@@ -147,6 +164,11 @@
                 currentQuestionIndex++;
                 showNextQuestion();
             }
+        }
+
+        function updateProgressBar() {
+            let progress = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = progress + "%";
         }
         
         function calculateResult() {
