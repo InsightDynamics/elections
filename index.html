@@ -157,7 +157,7 @@
 
         <div class="btn-container">
             <a href="results.html" class="btn btn-primary">📍 2025 Ontario Election Results</a>
-            <button class="btn btn-secondary" onclick="openModal()">🗳️ Federal Election</button>
+            <a href="federal_polling.html" class="btn btn-secondary">🗳️ Federal Election</a> <!-- Changed to link directly to the page -->
         </div>
 
         <div id="countdown"></div>
@@ -197,18 +197,14 @@
     </footer>
 
     <script>
-        function openModal() {
-            <a href="federal_polling.html">Latest Federal Polling Info</a>
-        }
-
         function updateCountdown() {
             const electionDate = new Date("October 26, 2025 00:00:00").getTime();
             const now = new Date().getTime();
             const days = Math.floor((electionDate - now) / (1000 * 60 * 60 * 24));
             document.getElementById("countdown").innerHTML = `⏳ Next Federal Election: <strong>${days} days</strong>`;
         }
-        setInterval(updateCountdown, 86400000);
-        updateCountdown();
+        setInterval(updateCountdown, 86400000); // update every 24 hours
+        updateCountdown(); // update immediately upon load
     </script>
 
 </body>
