@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canadian Federal Parties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            background-color: #f9f8f3;
+            color: #2c2c2c;
+            padding: 15px;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #b8860b;
+            margin-bottom: 20px;
+        }
+
+        .party-box {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .party-box h2 {
+            font-size: 2em;
+            color: #b8860b;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #b8860b;
+            padding-bottom: 5px;
+        }
+
+        .party-box p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background-color: #474A48;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #b8860b;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 16px;
+            background: #e9ecef;
+            text-align: center;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🇨🇦 Canadian Federal Political Parties</h1>
+        <p>Detailed breakdown of the major federal political parties in Canada.</p>
+
+        <div class="btn-container">
+            <a href="index.html" class="btn btn-secondary">⬅️ Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Liberal Party -->
+    <div class="party-box">
+        <h2>🔴 Liberal Party of Canada (LPC)</h2>
+        <p><strong>Founded:</strong> 1867</p>
+        <p><strong>Leader:</strong> Justin Trudeau</p>
+        <p><strong>Ideology:</strong> Centre to Centre-Left</p>
+        <p>The Liberal Party supports progressive policies, multiculturalism, and government intervention in the economy. It advocates for universal healthcare, environmental protections, and economic policies that blend market competition with social safety nets.</p>
+        <p><strong>Key Policies:</strong></p>
+        <ul>
+            <li>Carbon pricing and climate action</li>
+            <li>Affordable childcare program</li>
+            <li>Tax cuts for the middle class</li>
+            <li>Strengthened gun control laws</li>
+        </ul>
+    </div>
+
+    <!-- Conservative Party -->
+    <div class="party-box">
+        <h2>🔵 Conservative Party of Canada (CPC)</h2>
+        <p><strong>Founded:</strong> 2003 (merger of PC & Reform Party)</p>
+        <p><strong>Leader:</strong> Pierre Poilievre</p>
+        <p><strong>Ideology:</strong> Centre-Right to Right</p>
+        <p>The Conservatives emphasize lower taxes, free-market policies, and limited government intervention. They advocate for strong national defense, reduced corporate regulations, and balancing the budget.</p>
+        <p><strong>Key Policies:</strong></p>
+        <ul>
+            <li>Tax cuts for businesses and individuals</li>
+            <li>Pipeline expansion and energy independence</li>
+            <li>Increased funding for law enforcement</li>
+            <li>Opposition to carbon tax</li>
+        </ul>
+    </div>
+
+    <!-- NDP -->
+    <div class="party-box">
+        <h2>🟠 New Democratic Party (NDP)</h2>
+        <p><strong>Founded:</strong> 1961</p>
+        <p><strong>Leader:</strong> Jagmeet Singh</p>
+        <p><strong>Ideology:</strong> Left-Wing, Democratic Socialism</p>
+        <p>The NDP prioritizes workers' rights, wealth redistribution, and public services. It supports increasing corporate taxes, expanding universal healthcare, and improving social welfare programs.</p>
+        <p><strong>Key Policies:</strong></p>
+        <ul>
+            <li>Universal pharmacare and dental care</li>
+            <li>Higher taxes on the wealthy</li>
+            <li>Strengthened labor rights</li>
+            <li>Increased investment in affordable housing</li>
+        </ul>
+    </div>
+
+    <!-- Green Party -->
+    <div class="party-box">
+        <h2>🟢 Green Party of Canada</h2>
+        <p><strong>Founded:</strong> 1983</p>
+        <p><strong>Leader:</strong> Elizabeth May</p>
+        <p><strong>Ideology:</strong> Environmentalism, Progressive</p>
+        <p>The Green Party focuses on climate change action, sustainable development, and grassroots democracy. It promotes renewable energy, cutting fossil fuel subsidies, and enhancing public transportation.</p>
+        <p><strong>Key Policies:</strong></p>
+        <ul>
+            <li>Net-zero carbon emissions by 2050</li>
+            <li>Ban on fracking and new oil projects</li>
+            <li>Guaranteed livable income</li>
+            <li>Electoral reform (proportional representation)</li>
+        </ul>
+    </div>
+
+    <div class="btn-container">
+        <a href="political_quiz.html" class="btn btn-primary">📝 Which party should I select?</a>
+    </div>
+
+    <footer>
+        &copy; 2025 Noah Cornish. All rights reserved. <br>
+        Data sources: <a href="https://elections.ca">Elections Canada</a>
+    </footer>
+
+</body>
+</html>
