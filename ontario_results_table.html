@@ -3,53 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 Ontario Election Results (Table)</title>
+    <title>2025 Ontario Election Results</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+        /* General Styles */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #333;
+            --text-color: #222;
+            --background-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             min-height: 100vh;
+            padding: 15px;
             text-align: center;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
-            width: 90%;
+            width: 95%;
             max-width: 900px;
-            background: white;
-            padding: 30px;
+            background: var(--card-bg);
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         h1 {
-            color: #343a40;
+            color: var(--primary-color);
             font-size: 2em;
             font-weight: bold;
+            margin-bottom: 15px;
         }
 
         .button-container {
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .btn {
-            display: inline-block;
-            width: auto;
-            padding: 12px 20px;
+            padding: 12px 18px;
             font-size: 16px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
             cursor: pointer;
             border: none;
-            transition: all 0.3s ease-in-out;
-            background-color: #0056b3;
+            background-color: var(--primary-color);
             color: white;
+            transition: all 0.3s ease-in-out;
         }
 
         .btn:hover {
@@ -57,44 +83,50 @@
         }
 
         .dropdown-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .dropdown {
             width: 100%;
             max-width: 500px;
-            padding: 14px;
+            padding: 12px;
             font-size: 16px;
-            border: 2px solid #0056b3;
+            border: 2px solid var(--primary-color);
             border-radius: 8px;
             background: white;
-            color: #333;
+            color: var(--secondary-color);
             cursor: pointer;
             text-align: center;
             appearance: none;
         }
 
+        /* Table Container */
         .table-container {
             overflow-x: auto;
-            margin-top: 25px;
+            margin-top: 15px;
+            border-radius: 10px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
+            font-size: 14px;
+            white-space: nowrap;
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px;
             text-align: center;
             border: 1px solid #dee2e6;
-            font-size: 15px;
         }
 
         th {
-            background-color: #0056b3;
+            background-color: var(--primary-color);
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
 
         tr:nth-child(even) {
@@ -103,18 +135,36 @@
 
         .note {
             font-size: 0.9em;
-            color: #0056b3;
-            margin-top: 15px;
+            color: var(--primary-color);
+            margin-top: 10px;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 600px) {
+            .btn {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
+
+            .dropdown {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>2025 Ontario Election Results</h1>
+        <h1>🗳️ 2025 Ontario Election Results</h1>
 
         <div class="button-container">
-            <a href="results.html" class="btn">Back to Map</a>
-            <a href="index.html" class="btn">Back to Home</a>
+            <a href="results.html" class="btn">🔙 Back to Map</a>
+            <a href="index.html" class="btn">🏠 Home</a>
         </div>
 
         <div class="dropdown-container">
@@ -137,7 +187,7 @@
             </table>
         </div>
 
-        <p class="note">Data Source: <a href="https://elections.on.ca" style="color: #0056b3;">Elections Ontario</a></p>
+        <p class="note">📊 Data Source: <a href="https://elections.on.ca" style="color: var(--primary-color);">Elections Ontario</a></p>
     </div>
 
     <script>
@@ -182,7 +232,13 @@
             }
         }
 
-        fetchResults();
+        // Dark Mode Persistence
+        window.onload = function () {
+            fetchResults();
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        };
     </script>
 </body>
 </html>
