@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canadian Federal Political Parties</title>
+    <title>Canadian Federal Parties</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             text-align: center;
@@ -20,25 +19,30 @@
             padding: 15px;
             line-height: 1.8;
         }
-
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 25px;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 30px;
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease-in-out;
         }
-
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.5em;
             font-weight: 700;
             color: #b8860b;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-
+        .dropdown {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: 1px solid #b8860b;
+        }
         .party-box {
+            display: none;
             max-width: 900px;
             margin: 30px auto;
             padding: 25px;
@@ -46,162 +50,105 @@
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             text-align: left;
-            display: none; /* Initially hidden */
         }
-
-        .party-box h2 {
-            font-size: 1.8rem;
-            color: #b8860b;
-            margin-bottom: 10px;
-            border-bottom: 3px solid #b8860b;
-            padding-bottom: 5px;
+        .party-box.active {
+            display: block;
         }
-
-        .party-box p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        ul li {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
         .btn-container {
-            margin-top: 15px;
+            margin-top: 20px;
         }
-
-        select {
-            padding: 10px;
-            font-size: 16px;
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-top: 10px;
-            width: 100%;
-            max-width: 300px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-primary {
+            background-color: #474A48;
+            color: white;
         }
-
+        .btn-secondary {
+            background-color: #b8860b;
+            color: white;
+        }
         footer {
-            margin-top: 40px;
-            padding: 15px;
-            font-size: 14px;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 16px;
             background: #e9ecef;
             text-align: center;
+            width: 100%;
         }
-
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>🇨🇦 Canadian Federal Political Parties</h1>
-        <p>Explore the key ideologies and policies of Canada's major political parties.</p>
-
-        <!-- Dropdown to select a party -->
-        <div>
-            <label for="party-select">Select a Party:</label>
-            <select id="party-select">
-                <option value="default">-- Select a Party --</option>
-                <option value="liberal">Liberal Party of Canada (LPC)</option>
-                <option value="conservative">Conservative Party of Canada (CPC)</option>
-                <option value="ndp">New Democratic Party (NDP)</option>
-                <option value="bloc">Bloc Québécois (BQ)</option>
-                <option value="green">Green Party of Canada (GPC)</option>
-            </select>
+        <p>Select a party to learn more:</p>
+        <select id="partySelect" class="dropdown">
+            <option value="">-- Select a Party --</option>
+            <option value="liberal">Liberal Party of Canada</option>
+            <option value="conservative">Conservative Party of Canada</option>
+            <option value="ndp">New Democratic Party</option>
+            <option value="bloc">Bloc Québécois</option>
+            <option value="green">Green Party of Canada</option>
+        </select>
+        <div class="btn-container">
+            <a href="index.html" class="btn btn-secondary">⬅️ Back to Home</a>
         </div>
     </div>
 
-    <!-- Default Info (Hidden when a party is selected) -->
-    <div id="defaul" class="party-box" style="display: block;">
-        <h2>🗳️ Understanding the Canadian Political System</h2>
-        <p>Canada has a multi-party system where different parties compete in elections and influence policies. The five major parties are:</p>
-        <ul>
-            <li><strong>Liberal Party:</strong> Supports social programs and progressive policies.</li>
-            <li><strong>Conservative Party:</strong> Advocates for lower taxes and economic freedom.</li>
-            <li><strong>NDP:</strong> Focuses on labor rights and public healthcare.</li>
-            <li><strong>Bloc Québécois:</strong> Represents Quebec’s interests and autonomy.</li>
-            <li><strong>Green Party:</strong> Prioritizes sustainability and climate action.</li>
-        </ul>
-        <p><em>"You don’t have to fully agree with one party—many people support ideas from multiple parties."</em></p>
-    </div>
-
-    <!-- Party Sections -->
-    <div id="liberal" class="party-box">
-        <h2>🔴 Liberal Party of Canada (LPC)</h2>
-        <p><strong>Ideology:</strong> Centre to Centre-Left</p>
-        <ul>
-            <li>Progressive social policies</li>
-            <li>Government investment in infrastructure</li>
-            <li>Carbon pricing & climate initiatives</li>
-        </ul>
-    </div>
-
-    <div id="conservative" class="party-box">
-        <h2>🔵 Conservative Party of Canada (CPC)</h2>
-        <p><strong>Ideology:</strong> Centre-Right to Right</p>
-        <ul>
-            <li>Lower taxes & smaller government</li>
-            <li>Support for resource industries</li>
-            <li>Focus on law and order</li>
-        </ul>
-    </div>
-
-    <div id="ndp" class="party-box">
-        <h2>🟠 New Democratic Party (NDP)</h2>
-        <p><strong>Ideology:</strong> Left-Wing</p>
-        <ul>
-            <li>Expanding public healthcare</li>
-            <li>Stronger labor rights</li>
-            <li>Higher taxes on the wealthy</li>
-        </ul>
-    </div>
-
-    <div id="bloc" class="party-box">
-        <h2>🔵⚪ Bloc Québécois (BQ)</h2>
-        <p><strong>Ideology:</strong> Quebec Nationalism</p>
-        <ul>
-            <li>Quebec autonomy & sovereignty</li>
-            <li>Opposition to federal pipelines in Quebec</li>
-            <li>Advocacy for French language rights</li>
-        </ul>
-    </div>
-
-    <div id="green" class="party-box">
-        <h2>🟢 Green Party of Canada (GPC)</h2>
-        <p><strong>Ideology:</strong> Environmentalism</p>
-        <ul>
-            <li>Carbon-free economy by 2050</li>
-            <li>Renewable energy investment</li>
-            <li>Social justice & human rights</li>
-        </ul>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 Canadian Federal Political Parties. All rights reserved.</p>
-    </footer>
+    <div id="partyInfo"></div>
 
     <script>
-        document.getElementById('party-select').addEventListener('change', function () {
-            const selectedParty = this.value;
-            document.querySelectorAll('.party-box').forEach(box => box.style.display = 'none');
+        const partyData = {
+            liberal: `<div class='party-box active'><h2>🔴 Liberal Party of Canada (LPC)</h2>
+                      <p><strong>Founded:</strong> 1867</p>
+                      <p><strong>Leader:</strong> Undergoing a leadership race</p>
+                      <p><strong>Ideology:</strong> Centre to Centre-Left</p>
+                      <p><strong>Notable Achievements:</strong> Universal healthcare, Charter of Rights and Freedoms</p>
+                      </div>`,
+            conservative: `<div class='party-box active'><h2>🔵 Conservative Party of Canada (CPC)</h2>
+                           <p><strong>Founded:</strong> 2003</p>
+                           <p><strong>Leader:</strong> Pierre Poilievre</p>
+                           <p><strong>Ideology:</strong> Centre-Right to Right</p>
+                           <p><strong>Notable Achievements:</strong> Free trade agreements, tax cuts</p>
+                           </div>`,
+            ndp: `<div class='party-box active'><h2>🟠 New Democratic Party (NDP)</h2>
+                  <p><strong>Founded:</strong> 1961</p>
+                  <p><strong>Leader:</strong> Jagmeet Singh</p>
+                  <p><strong>Ideology:</strong> Left-Wing, Democratic Socialism</p>
+                  <p><strong>Notable Achievements:</strong> Expanding labor rights, advocating universal healthcare</p>
+                  </div>`,
+            bloc: `<div class='party-box active'><h2>🔵⚪ Bloc Québécois (BQ)</h2>
+                   <p><strong>Founded:</strong> 1991</p>
+                   <p><strong>Leader:</strong> Yves-François Blanchet</p>
+                   <p><strong>Ideology:</strong> Quebec Nationalism, Centre-Left</p>
+                   <p><strong>Notable Achievements:</strong> Advocated for Quebec’s rights</p>
+                   </div>`,
+            green: `<div class='party-box active'><h2>🟢 Green Party of Canada (GPC)</h2>
+                    <p><strong>Founded:</strong> 1983</p>
+                    <p><strong>Leader:</strong> Elizabeth May & Jonathan Pedneault</p>
+                    <p><strong>Ideology:</strong> Environmentalism, Progressive</p>
+                    <p><strong>Notable Achievements:</strong> Climate advocacy, pushing for renewable energy</p>
+                    </div>`
+        };
 
-            if (selectedParty === "default") {
-                document.getElementById("default").style.display = 'block';
-            } else {
-                document.getElementById(selectedParty).style.display = 'block';
-            }
+        document.getElementById('partySelect').addEventListener('change', function() {
+            const selectedParty = this.value;
+            document.getElementById('partyInfo').innerHTML = partyData[selectedParty] || '';
         });
     </script>
 
+    <footer>
+        &copy; 2025 Noah Cornish. All rights reserved. <br>
+        Data sources: <a href="https://elections.ca">Elections Canada</a>
+    </footer>
 </body>
 </html>
