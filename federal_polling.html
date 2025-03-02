@@ -23,7 +23,7 @@
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
             padding: 20px;
             background: #2d2a26;
@@ -103,6 +103,15 @@
             background-color: #ece7dc;
         }
 
+        .summary {
+            text-align: left;
+            padding: 15px;
+            background: #f8f6f2;
+            color: #2d2a26;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
         .note {
             font-size: 0.85em;
             color: #d4af37;
@@ -136,15 +145,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Perfect Mobile Fit */
-        @media screen and (max-width: 480px) {
-            h1 { font-size: 1.5em; }
-            h2 { font-size: 1em; }
-            th, td { font-size: 13px; }
-            .home-button { font-size: 15px; }
-            .search-input { font-size: 14px; padding: 8px; }
-        }
     </style>
 </head>
 <body>
@@ -153,7 +153,16 @@
         <h1>Canadian Federal Polling Dashboard</h1>
         <h2>As of February 23, 2025</h2>
 
-        <!-- Search Bar -->
+        <div class="summary">
+            <h3>Polling Summary</h3>
+            <p>The latest federal polling data indicates a strong lead for CPC, while LPC is experiencing a decline. The NDP has maintained steady support, and the Bloc Quebecois is showing slight gains.</p>
+        </div>
+
+        <div class="summary">
+            <h3>Polling Methodology</h3>
+            <p>The projections are based on publicly available polling data, statistical models, and seat distribution forecasts. For a detailed explanation of the methodology, visit <a href="https://338canada.com/about.htm#metho" target="_blank">338Canada's methodology page</a>.</p>
+        </div>
+
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search party..." onkeyup="filterTable()">
         </div>
@@ -169,67 +178,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>CPC</td>
-                        <td>43% ± 4%</td>
-                        <td>170 ± 10</td>
-                        <td>+20</td>
-                    </tr>
-                    <tr>
-                        <td>LPC</td>
-                        <td>22% ± 3%</td>
-                        <td>90 ± 8</td>
-                        <td>-30</td>
-                    </tr>
-                    <tr>
-                        <td>NDP</td>
-                        <td>18% ± 3%</td>
-                        <td>40 ± 5</td>
-                        <td>+5</td>
-                    </tr>
-                    <tr>
-                        <td>BQ</td>
-                        <td>8% ± 1%</td>
-                        <td>32 ± 3</td>
-                        <td>+2</td>
-                    </tr>
-                    <tr>
-                        <td>GPC</td>
-                        <td>4% ± 2%</td>
-                        <td>2 ± 1</td>
-                        <td>0</td>
-                    </tr>
+                    <tr><td>CPC</td><td>43% ± 4%</td><td>170 ± 10</td><td>+20</td></tr>
+                    <tr><td>LPC</td><td>22% ± 3%</td><td>90 ± 8</td><td>-30</td></tr>
+                    <tr><td>NDP</td><td>18% ± 3%</td><td>40 ± 5</td><td>+5</td></tr>
+                    <tr><td>BQ</td><td>8% ± 1%</td><td>32 ± 3</td><td>+2</td></tr>
+                    <tr><td>GPC</td><td>4% ± 2%</td><td>2 ± 1</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
         <p class="note">Data Source: <a href="https://338canada.com/federal.htm" style="color: #d4af37;">338Canada</a></p>
-        <p>More data coming soon.</p>
-
         <div class="button-container">
             <a href="index.html" class="home-button">🏠 Home</a>
         </div>
     </div>
-
-    <script>
-        function filterTable() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
-            let table = document.getElementById("pollingTable");
-            let rows = table.getElementsByTagName("tr");
-
-            for (let i = 1; i < rows.length; i++) {
-                let party = rows[i].getElementsByTagName("td")[0].textContent.toLowerCase();
-                rows[i].style.display = party.includes(input) ? "" : "none";
-            }
-        }
-
-        function sortTable(column) {
-            let table = document.getElementById("pollingTable");
-            let rows = Array.from(table.rows).slice(1);
-            rows.sort((a, b) => a.cells[column].textContent.localeCompare(b.cells[column].textContent));
-            rows.forEach(row => table.appendChild(row));
-        }
-    </script>
-
 </body>
 </html>
