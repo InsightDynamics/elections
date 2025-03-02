@@ -3,42 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 Ontario Election Results</title>
+    <title>🗳️ 2025 Ontario Election Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* General Styles */
         :root {
-            --primary-color: #0056b3;
-            --secondary-color: #333;
-            --text-color: #222;
-            --background-color: #f8f9fa;
-            --card-bg: #ffffff;
-        }
-
-        /* Dark Mode */
-        body.dark-mode {
-            --background-color: #121212;
+            --primary-color: #b8860b;
+            --primary-light: #e7cd82;
+            --primary-dark: #8e6808;
             --text-color: #e0e0e0;
+            --text-light: #a0a0a0;
+            --background-color: #121212;
             --card-bg: #1e1e1e;
+            --button-gradient: linear-gradient(135deg, #b8860b, #ffc107);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
+            --radius-md: 12px;
+            --transition: all 0.3s ease-in-out;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
             background-color: var(--background-color);
             color: var(--text-color);
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            min-height: 100vh;
-            padding: 15px;
-            text-align: center;
-            transition: background 0.3s, color 0.3s;
+            align-items: center;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
         }
 
         .container {
@@ -46,44 +78,50 @@
             max-width: 900px;
             background: var(--card-bg);
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            margin-top: 20px;
         }
 
         h1 {
             color: var(--primary-color);
-            font-size: 2em;
+            font-size: 2.2rem;
             font-weight: bold;
-            margin-bottom: 15px;
         }
 
-        .button-container {
+        .btn-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin: 20px 0;
         }
 
         .btn {
             padding: 12px 18px;
             font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
+            font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             border: none;
-            background-color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+            background: var(--button-gradient);
             color: white;
-            transition: all 0.3s ease-in-out;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .btn:hover {
-            background-color: #004494;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
         .dropdown-container {
-            margin-bottom: 15px;
+            margin: 20px 0;
         }
 
         .dropdown {
@@ -93,36 +131,41 @@
             font-size: 16px;
             border: 2px solid var(--primary-color);
             border-radius: 8px;
-            background: white;
-            color: var(--secondary-color);
+            background: var(--card-bg);
+            color: var(--text-color);
             cursor: pointer;
             text-align: center;
-            appearance: none;
+            transition: var(--transition);
         }
 
-        /* TABLE STYLING */
+        .dropdown:hover {
+            border-color: var(--primary-light);
+        }
+
+        /* TABLE STYLES */
         .table-container {
             width: 100%;
-            margin-top: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: var(--card-bg);
             font-size: 14px;
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
-            border: 1px solid #dee2e6;
+            border-bottom: 1px solid #474A48;
         }
 
         th {
-            background-color: var(--primary-color);
+            background: var(--primary-color);
             color: white;
             position: sticky;
             top: 0;
@@ -130,19 +173,19 @@
         }
 
         tr:nth-child(even) {
-            background-color: #f1f3f5;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .note {
             font-size: 0.9em;
-            color: var(--primary-color);
+            color: var(--primary-light);
             margin-top: 10px;
         }
 
-        /* MOBILE STYLES */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.7em;
+                font-size: 1.8rem;
             }
 
             .btn {
@@ -152,66 +195,30 @@
 
             .dropdown {
                 font-size: 14px;
-                padding: 10px;
             }
 
             table {
                 font-size: 12px;
             }
-
-            th, td {
-                padding: 6px;
-            }
-
-            .table-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            /* Make table responsive without horizontal scrolling */
-            table th, table td {
-                display: block;
-                width: 100%;
-                text-align: left;
-            }
-
-            table thead {
-                display: none;
-            }
-
-            table tbody tr {
-                display: block;
-                margin-bottom: 15px;
-                border: 1px solid #dee2e6;
-                padding: 10px;
-                border-radius: 8px;
-                background: white;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            table tbody tr td {
-                display: flex;
-                justify-content: space-between;
-                padding: 8px;
-                font-size: 14px;
-            }
-
-            table tbody tr td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                color: var(--primary-color);
-            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <span>Election Hub</span>
+            </a>
+        </div>
+    </header>
+
     <div class="container">
         <h1>🗳️ 2025 Ontario Election Results</h1>
 
-        <div class="button-container">
-            <a href="results.html" class="btn">🔙 Back to Map</a>
-            <a href="index.html" class="btn">🏠 Home</a>
+        <div class="btn-container">
+            <a href="results.html" class="btn"><i class="fas fa-map"></i> Back to Map</a>
+            <a href="index.html" class="btn"><i class="fas fa-home"></i> Home</a>
         </div>
 
         <div class="dropdown-container">
@@ -234,7 +241,7 @@
             </table>
         </div>
 
-        <p class="note">📊 Data Source: <a href="https://elections.on.ca" style="color: var(--primary-color);">Elections Ontario</a></p>
+        <p class="note">📊 Data Source: <a href="https://elections.on.ca" style="color: var(--primary-light);">Elections Ontario</a></p>
     </div>
 
     <script>
@@ -252,8 +259,7 @@
 
         function populateDropdown(data) {
             const dropdown = document.getElementById("ridingDropdown");
-            let ridings = Object.keys(data).sort();
-            ridings.forEach(riding => {
+            Object.keys(data).sort().forEach(riding => {
                 let option = document.createElement("option");
                 option.value = riding;
                 option.textContent = riding;
@@ -264,28 +270,12 @@
         function displayResults() {
             const selectedRiding = document.getElementById("ridingDropdown").value;
             const tableBody = document.querySelector("#results-table tbody");
-            tableBody.innerHTML = "";
-
-            if (selectedRiding && electionData[selectedRiding]) {
-                electionData[selectedRiding].forEach(result => {
-                    let row = `<tr>
-                        <td data-label="Candidate">${result.Candidate}</td>
-                        <td data-label="Party">${result.Party}</td>
-                        <td data-label="Votes">${result.Votes.toLocaleString()}</td>
-                        <td data-label="Percentage">${result.Percentage}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
-            }
+            tableBody.innerHTML = electionData[selectedRiding]?.map(result => 
+                `<tr><td>${result.Candidate}</td><td>${result.Party}</td><td>${result.Votes.toLocaleString()}</td><td>${result.Percentage}</td></tr>`
+            ).join('') || "";
         }
 
-        // Dark Mode Persistence
-        window.onload = function () {
-            fetchResults();
-            if (localStorage.getItem("darkMode") === "enabled") {
-                document.body.classList.add("dark-mode");
-            }
-        };
+        fetchResults();
     </script>
 </body>
 </html>

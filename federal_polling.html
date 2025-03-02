@@ -2,119 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canadian Federal Polling Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* General Styles */
+        :root {
+            --primary-color: #b8860b;
+            --primary-light: #e7cd82;
+            --primary-dark: #8e6808;
+            --text-color: #e0e0e0;
+            --text-light: #a0a0a0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --button-gradient: linear-gradient(135deg, #b8860b, #ffc107);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
+            --radius-md: 12px;
+            --transition: all 0.3s ease-in-out;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 0;
+            margin: 0;
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             text-align: center;
-            background-color: #f9f8f3;
-            color: #333;
-            padding: 15px;
-            overflow-x: hidden;
         }
 
-        .container {
+        /* HEADER */
+        header {
             width: 100%;
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background: #2d2a26;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-            color: #f4ede4;
-            animation: fadeIn 0.5s ease-in-out;
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
         }
 
-        h1 {
-            font-size: 1.8em;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #d4af37;
-            margin-bottom: 10px;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        h2 {
-            font-size: 1.1em;
-            color: #c2a677;
-            margin-bottom: 15px;
+        .logo i {
+            font-size: 1.8rem;
         }
 
+        /* HERO */
+        .hero {
+            padding: 60px 20px;
+            text-align: center;
+            background: var(--card-bg);
+            margin: 30px auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            max-width: 900px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 15px;
+        }
+
+        /* SEARCH BAR */
         .search-container {
-            margin-bottom: 15px;
+            margin: 20px 0;
         }
 
         .search-input {
-            width: 90%;
-            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
             font-size: 16px;
-            border: 1px solid #d4af37;
+            border: 2px solid var(--primary-color);
             border-radius: 6px;
+            background: var(--card-bg);
+            color: var(--text-color);
             text-align: center;
-            background: #fff;
-            color: #333;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .search-input:focus {
-            border-color: #b99a2e;
+            border-color: var(--primary-light);
             outline: none;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* TABLE STYLES */
         .table-container {
             width: 100%;
             overflow-x: auto;
             margin-bottom: 15px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: #f8f6f2;
-            color: #2d2a26;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             font-size: 14px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid var(--primary-light);
         }
 
         th {
-            background-color: #d4af37;
-            color: #2d2a26;
+            background-color: var(--primary-color);
+            color: var(--background-color);
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
+            transition: var(--transition);
         }
 
         th:hover {
-            background-color: #b99a2e;
+            background-color: var(--primary-dark);
         }
 
         tr:nth-child(even) {
-            background-color: #ece7dc;
-        }
-
-        .summary {
-            text-align: left;
-            padding: 15px;
-            background: #f8f6f2;
-            color: #2d2a26;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .note {
-            font-size: 0.85em;
-            color: #d4af37;
+            font-size: 0.9em;
+            color: var(--primary-light);
             margin-top: 10px;
         }
 
@@ -123,75 +172,87 @@
         }
 
         .home-button {
-            display: block;
             padding: 12px;
             font-size: 16px;
             font-weight: 600;
-            color: #2d2a26;
-            background-color: #d4af37;
-            border: none;
             border-radius: 8px;
+            cursor: pointer;
+            border: none;
             text-decoration: none;
-            transition: all 0.3s ease-in-out;
-            width: 100%;
+            transition: var(--transition);
+            background: var(--button-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+            display: inline-block;
+            margin-top: 15px;
         }
 
         .home-button:hover {
-            background-color: #b99a2e;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Canadian Federal Polling Dashboard</h1>
-        <h2>As of February 23, 2025</h2>
-        <h2>Next Update: March 2nd, 2025</h2>
-
-        <div class="summary">
-            <h3>Polling Summary</h3>
-            <p>The latest federal polling data indicates a strong lead for CPC, while LPC is experiencing a decline. The NDP has maintained steady support, and the Bloc Quebecois is showing slight gains.</p>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <span>Election Hub</span>
+            </a>
         </div>
+    </header>
 
-        <div class="summary">
-            <h3>Polling Methodology</h3>
-            <p>The projections are based on publicly available polling data, statistical models, and seat distribution forecasts. For a detailed explanation of the methodology, visit <a href="https://338canada.com/about.htm#metho" target="_blank">338Canada's methodology page</a>.</p>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search party..." onkeyup="filterTable()">
-        </div>
-
-        <div class="table-container">
-            <table id="pollingTable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Party 🔽</th>
-                        <th onclick="sortTable(1)">Vote % 🔽</th>
-                        <th onclick="sortTable(2)">Seats 🔽</th>
-                        <th onclick="sortTable(3)">Change 🔽</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>CPC</td><td>43% ± 4%</td><td>170 ± 10</td><td>+20</td></tr>
-                    <tr><td>LPC</td><td>22% ± 3%</td><td>90 ± 8</td><td>-30</td></tr>
-                    <tr><td>NDP</td><td>18% ± 3%</td><td>40 ± 5</td><td>+5</td></tr>
-                    <tr><td>BQ</td><td>8% ± 1%</td><td>32 ± 3</td><td>+2</td></tr>
-                    <tr><td>GPC</td><td>4% ± 2%</td><td>2 ± 1</td><td>0</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p class="note">Data Source: <a href="https://338canada.com/federal.htm" style="color: #d4af37;">338Canada</a></p>
-        <div class="button-container">
-            <a href="index.html" class="home-button">🏠 Home</a>
-        </div>
+    <div class="hero">
+        <h1>📊 Canadian Federal Polling Dashboard</h1>
+        <p>Latest national polling data and trends</p>
     </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search party..." onkeyup="filterTable()">
+    </div>
+
+    <div class="table-container">
+        <table id="pollingTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Party 🔽</th>
+                    <th onclick="sortTable(1)">Vote % 🔽</th>
+                    <th onclick="sortTable(2)">Seats 🔽</th>
+                    <th onclick="sortTable(3)">Change 🔽</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>CPC</td><td>43% ± 4%</td><td>170 ± 10</td><td>+20</td></tr>
+                <tr><td>LPC</td><td>22% ± 3%</td><td>90 ± 8</td><td>-30</td></tr>
+                <tr><td>NDP</td><td>18% ± 3%</td><td>40 ± 5</td><td>+5</td></tr>
+                <tr><td>BQ</td><td>8% ± 1%</td><td>32 ± 3</td><td>+2</td></tr>
+                <tr><td>GPC</td><td>4% ± 2%</td><td>2 ± 1</td><td>0</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="note">📊 Data Source: <a href="https://338canada.com/federal.htm" style="color: var(--primary-light);">338Canada</a></p>
+
+    <div class="button-container">
+        <a href="index.html" class="home-button">🏠 Home</a>
+    </div>
+
 </body>
 </html>
