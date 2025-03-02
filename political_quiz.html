@@ -4,107 +4,544 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Political Quiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
+        /* General Styles */
+        :root {
+            --primary-color: #b8860b;
+            --primary-light: #e7cd82;
+            --primary-dark: #8e6808;
+            --secondary-color: #474A48;
+            --text-color: #e0e0e0;
+            --text-light: #a0a0a0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --button-gradient: linear-gradient(135deg, #b8860b, #ffc107);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* LIGHT MODE - Not active by default */
+        body.light-mode {
+            --background-color: #f9f9f9;
+            --text-color: #2c2c2c;
+            --text-light: #6b6b6b;
+            --card-bg: #ffffff;
+            --button-gradient: linear-gradient(135deg, #b8860b, #daa520);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            text-align: center;
-            background-color: #f9f8f3;
-            color: #2c2c2c;
-            padding: 20px;
         }
-        .container {
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 0;
+            margin: 0;
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* QUIZ CONTAINER */
+        .quiz-container {
             max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
         }
+
+        .quiz-container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--primary-light);
+            opacity: 0.1;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .quiz-container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 180px;
+            height: 180px;
+            background: var(--primary-light);
+            opacity: 0.1;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
         h1 {
-            font-size: 2.2em;
-            color: #b8860b;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
+
+        .anonymous {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .instructions {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* PROGRESS BAR */
         .progress-container {
             width: 100%;
-            background: #ddd;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
         }
+
         .progress-bar {
             height: 12px;
             width: 0%;
-            background: #b8860b;
+            background: var(--button-gradient);
             border-radius: 8px;
             transition: width 0.4s ease-in-out;
         }
+
+        /* QUESTION STYLES */
         .question {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
         }
+
+        .question p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .radio-container {
+            display: block;
+            position: relative;
+            padding: 15px 15px 15px 50px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            user-select: none;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .radio-container:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .radio-container {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.light-mode .radio-container:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .radio-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            height: 20px;
+            width: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        body.light-mode .checkmark {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .radio-container:hover input ~ .checkmark {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.light-mode .radio-container:hover input ~ .checkmark {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .radio-container input:checked ~ .checkmark {
+            background-color: var(--primary-color);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .radio-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .radio-container .checkmark:after {
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        /* BUTTON STYLES */
         .btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 600;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            margin-top: 15px;
-            background-color: #474A48;
+            margin-top: 20px;
+            background: var(--button-gradient);
             color: white;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: var(--transition);
         }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
         .btn:hover {
-            background-color: #3a3c3a;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* RESULT STYLES */
         #result {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 18px;
+            margin-top: 30px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+            background: rgba(184, 134, 11, 0.1);
+            border-radius: var(--radius-sm);
+            position: relative;
+            z-index: 1;
+            display: none;
         }
+
+        /* BACK BUTTON */
         .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #b8860b;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
         }
+
         .back-btn:hover {
-            background-color: #9a7409;
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            background: var(--card-bg);
+            box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(184, 134, 11, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question p {
+                font-size: 1.1rem;
+            }
+            
+            .radio-container {
+                padding: 12px 12px 12px 45px;
+                font-size: 0.95rem;
+            }
+            
+            .checkmark {
+                top: 12px;
+                left: 12px;
+                height: 18px;
+                width: 18px;
+            }
+            
+            .radio-container .checkmark:after {
+                top: 5px;
+                left: 5px;
+                width: 8px;
+                height: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .instructions, .anonymous {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 14px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Political Quiz</h1>
-        <p class="anonymous">This quiz is for educational purposes only.<br> Your responses are completely anonymous—no data is tracked, stored, or logged.</p> 
-        <p class="instructions">Each question will appear one at a time. Select an answer and click 'Next' to proceed. <br>At the end, you'll see which political party aligns most closely with your views.*</p>
-
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+    <header>
+        <div class="wrapper header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <span>Election Hub</span>
+            </a>
+            <button class="theme-toggle" onclick="toggleLightMode()" id="themeToggle">
+                <i class="fas fa-sun"></i>
+            </button>
         </div>
+    </header>
 
-        <form id="quiz-form">
+    <main class="wrapper">
+        <div class="quiz-container">
+            <h1><i class="fas fa-clipboard-list"></i> Political Quiz</h1>
+            <p class="anonymous">This quiz is for educational purposes only.<br> Your responses are completely anonymous—no data is tracked, stored, or logged.</p>
+            <p class="instructions">Each question will appear one at a time. Select an answer and click 'Next' to proceed.<br>At the end, you'll see which political party aligns most closely with your views.</p>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <!-- Questions Container -->
             <div id="questions-container"></div>
-            <button type="button" class="btn" id="next-button" style="display:none;" onclick="nextQuestion()">Next</button>
-        </form>
-        
-        <div id="result"></div>
-        
-        <a href="index.html" class="back-btn">⬅️ Back to Home</a>
-        <p class="anonymous">
-            *This quiz is not perfect and is not the definitive measure of your political alignment. <br>
-            It is simply a tool to help you explore where you may stand on key issues.<br>
-            Your views are complex and may not fit neatly into one category.
-        </p>
-        
-    </div>
-    
+            
+            <!-- Next Button -->
+            <button type="button" class="btn" id="next-button" style="display:none;">
+                <i class="fas fa-arrow-right"></i> Next
+            </button>
+            
+            <!-- Result Section -->
+            <div id="result"></div>
+            
+            <!-- Back Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+            
+            <p class="anonymous" style="margin-top: 25px;">
+                *This quiz is not perfect and is not the definitive measure of your political alignment.<br>
+                It is simply a tool to help you explore where you may stand on key issues.<br>
+                Your views are complex and may not fit neatly into one category.
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="wrapper footer-content">
+            <div class="copyright">
+                &copy; 2025 Election Hub. All rights reserved.
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
     <script>
+        // Questions Array
         let questions = [
             "Taxes on the wealthy should be significantly increased to fund public services.",
             "Businesses should have fewer regulations to encourage economic growth.",
@@ -128,22 +565,45 @@
             "Transgender individuals should be allowed to serve in the military."
         ];
         
+        // Variables
         let currentQuestionIndex = 0;
         const questionsContainer = document.getElementById("questions-container");
         const nextButton = document.getElementById("next-button");
         const progressBar = document.getElementById("progress-bar");
-        let scores = { left: 0, center: 0, right: 0 };
+        const resultDiv = document.getElementById("result");
+        let scores = { left: 0, "center-left": 0, center: 0, "center-right": 0, right: 0 };
 
+        // Function to display the next question
         function showNextQuestion() {
             if (currentQuestionIndex < questions.length) {
                 questionsContainer.innerHTML = `
                     <div class="question">
                         <p>${currentQuestionIndex + 1}. ${questions[currentQuestionIndex]}</p>
-                        <input type="radio" name="q${currentQuestionIndex}" value="left" onclick="enableNextButton()"> Strongly Agree<br>
-                        <input type="radio" name="q${currentQuestionIndex}" value="center-left" onclick="enableNextButton()"> Agree<br>
-                        <input type="radio" name="q${currentQuestionIndex}" value="center" onclick="enableNextButton()"> Neutral<br>
-                        <input type="radio" name="q${currentQuestionIndex}" value="center-right" onclick="enableNextButton()"> Disagree<br>
-                        <input type="radio" name="q${currentQuestionIndex}" value="right" onclick="enableNextButton()"> Strongly Disagree
+                        
+                        <label class="radio-container">Strongly Agree
+                            <input type="radio" name="q${currentQuestionIndex}" value="left" onclick="enableNextButton()">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="radio-container">Agree
+                            <input type="radio" name="q${currentQuestionIndex}" value="center-left" onclick="enableNextButton()">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="radio-container">Neutral
+                            <input type="radio" name="q${currentQuestionIndex}" value="center" onclick="enableNextButton()">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="radio-container">Disagree
+                            <input type="radio" name="q${currentQuestionIndex}" value="center-right" onclick="enableNextButton()">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="radio-container">Strongly Disagree
+                            <input type="radio" name="q${currentQuestionIndex}" value="right" onclick="enableNextButton()">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                 `;
                 nextButton.style.display = "none";
@@ -153,10 +613,12 @@
             }
         }
         
+        // Function to enable the Next button
         function enableNextButton() {
             nextButton.style.display = "block";
         }
 
+        // Function to handle moving to the next question
         function nextQuestion() {
             let selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
             if (selectedAnswer) {
@@ -166,24 +628,77 @@
             }
         }
 
+        // Function to update the progress bar
         function updateProgressBar() {
             let progress = (currentQuestionIndex / questions.length) * 100;
             progressBar.style.width = progress + "%";
         }
         
+        // Function to calculate the result
         function calculateResult() {
+            questionsContainer.style.display = "none";
+            nextButton.style.display = "none";
+            resultDiv.style.display = "block";
+            
+            // Calculate the score
+            let leftScore = scores.left + scores["center-left"] * 0.5;
+            let rightScore = scores.right + scores["center-right"] * 0.5;
+            let centerScore = scores.center * 1.5;
+            
             let resultText = "";
-            if (scores.left > scores.right) {
+            let resultIcon = "";
+            
+            if (leftScore > rightScore && leftScore > centerScore) {
                 resultText = "Your views align most closely with the NDP or Green Party.";
-            } else if (scores.right > scores.left) {
+                resultIcon = "fa-leaf";
+            } else if (rightScore > leftScore && rightScore > centerScore) {
                 resultText = "Your views align most closely with the PC Party.";
+                resultIcon = "fa-landmark";
             } else {
                 resultText = "Your views align most closely with the Liberal Party.";
+                resultIcon = "fa-balance-scale";
             }
-            document.getElementById("result").innerHTML = `📊 ${resultText}`;
+            
+            resultDiv.innerHTML = `
+                <i class="fas ${resultIcon}" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                <p>📊 ${resultText}</p>
+                <p style="font-size: 0.9rem; margin-top: 15px; color: var(--text-light);">
+                    Remember, political views exist on a spectrum and political parties often have diverse internal opinions.
+                </p>
+            `;
         }
         
-        showNextQuestion();
+        // Initialize the quiz
+        function initQuiz() {
+            showNextQuestion();
+            // Add event listener to the next button
+            nextButton.addEventListener("click", nextQuestion);
+        }
+        
+        // Function to toggle light mode
+        function toggleLightMode() {
+            document.body.classList.toggle("light-mode");
+            
+            const themeToggle = document.getElementById("themeToggle");
+            if (document.body.classList.contains("light-mode")) {
+                localStorage.setItem("lightMode", "enabled");
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                localStorage.setItem("lightMode", "disabled");
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+        
+        // On page load
+        window.onload = function() {
+            initQuiz();
+            
+            // Check if light mode was previously enabled
+            if (localStorage.getItem("lightMode") === "enabled") {
+                document.body.classList.add("light-mode");
+                document.getElementById("themeToggle").innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        };
     </script>
 </body>
 </html>

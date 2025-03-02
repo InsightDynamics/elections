@@ -4,24 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Election Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* General Styles */
         :root {
             --primary-color: #b8860b;
+            --primary-light: #e7cd82;
+            --primary-dark: #8e6808;
             --secondary-color: #474A48;
-            --text-color: #2c2c2c;
-            --background-color: #f4f4f4;
-            --card-bg: #ffffff;
-            --button-gradient: linear-gradient(135deg, #b8860b, #9a7409);
+            --text-color: #e0e0e0;
+            --text-light: #a0a0a0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --button-gradient: linear-gradient(135deg, #b8860b, #ffc107);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* DARK MODE */
-        body.dark-mode {
-            --background-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --button-gradient: linear-gradient(135deg, #b8860b, #d4a103);
+        /* LIGHT MODE - Not active by default */
+        body.light-mode {
+            --background-color: #f9f9f9;
+            --text-color: #2c2c2c;
+            --text-light: #6b6b6b;
+            --card-bg: #ffffff;
+            --button-gradient: linear-gradient(135deg, #b8860b, #daa520);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         * {
@@ -32,88 +47,133 @@
         }
 
         body {
-            text-align: center;
             background-color: var(--background-color);
             color: var(--text-color);
-            padding: 20px;
-            transition: background 0.3s, color 0.3s;
+            padding: 0;
+            margin: 0;
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        /* POPUP STYLES */
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 300px;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            z-index: 1000;
-            display: none;
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        /* Ensure overlay covers the screen */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
-}
 
-/* Ensure popup is visible when needed */
-.popup.show, .overlay.show {
-    display: block;
-}
+        /* HEADER */
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .popup h3 {
-            margin-bottom: 10px;
-            font-size: 1.4em;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
             color: var(--primary-color);
+            text-decoration: none;
         }
 
-        .popup button {
-            padding: 10px 20px;
-            background: var(--primary-color);
-            color: white;
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .theme-toggle {
+            background: transparent;
             border: none;
-            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
         }
 
-        .popup button:hover {
-            background: #9a7409;
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* HEADER SECTION */
-        .container {
-            max-width: 850px;
-            margin: 50px auto;
-            padding: 40px;
+        body.light-mode .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 60px 20px;
+            text-align: center;
             background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            animation: fadeIn 0.5s ease-in-out;
+            margin: 30px auto;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--primary-light);
+            opacity: 0.1;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 180px;
+            height: 180px;
+            background: var(--primary-light);
+            opacity: 0.1;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 2.5em;
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 800;
             color: var(--primary-color);
             margin-bottom: 20px;
+            letter-spacing: -0.5px;
         }
 
-        p {
-            font-size: 18px;
-            color: var(--text-color);
-            margin-bottom: 25px;
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
         }
 
         /* BUTTONS */
@@ -122,106 +182,285 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             padding: 14px 28px;
-            font-size: 18px;
+            font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             border: none;
-            transition: all 0.3s ease-in-out;
+            transition: var(--transition);
             background: var(--button-gradient);
             color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .btn:hover {
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
         }
 
-        /* DARK MODE TOGGLE */
-        .toggle-container {
-            margin-top: 20px;
+        .btn:hover::before {
+            opacity: 1;
         }
 
-        .toggle-btn {
-            padding: 10px 20px;
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .toggle-btn:hover {
-            background: #333;
+        .btn i {
+            font-size: 1.2rem;
         }
 
         /* COUNTDOWN TIMER */
+        .countdown-container {
+            margin: 30px auto;
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            max-width: 900px;
+            box-shadow: var(--shadow-sm);
+        }
+
         #countdown {
-            font-size: 1.4em;
-            font-weight: bold;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary-color);
-            margin-top: 25px;
-            background: #fff7db;
-            padding: 15px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(184, 134, 11, 0.1);
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #countdown i {
+            font-size: 1.6rem;
+        }
+
+        #countdown strong {
+            color: var(--primary-color);
         }
 
         /* SECTIONS */
         .section {
-            max-width: 850px;
-            margin: 40px auto;
-            padding: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 40px;
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .section i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            background: rgba(184, 134, 11, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .section h2 {
-            font-size: 1.9em;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 5px;
-            display: inline-block;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
         .section ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 20px;
         }
 
         .section ul li {
-            font-size: 18px;
-            padding: 10px 0;
+            font-size: 1.1rem;
+            padding: 12px 0;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .section ul li::before {
-            content: "✔";
+        body.light-mode .section ul li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .section ul li i {
             color: var(--primary-color);
-            font-weight: bold;
-            margin-right: 10px;
+            font-size: 1.2rem;
+            background: none;
+            width: auto;
+            height: auto;
+        }
+
+        .section .btn-container {
+            margin-top: 30px;
+            justify-content: flex-start;
+        }
+
+        /* POPUP STYLES */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup h3 {
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .popup p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--text-color);
+            text-align: left;
+        }
+
+        .popup button {
+            padding: 14px 30px;
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .popup button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: none;
+        }
+
+        .popup.show, .overlay.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         /* FOOTER */
         footer {
-            margin-top: 50px;
-            padding: 20px;
-            font-size: 16px;
+            margin-top: auto;
+            padding: 30px 0;
             background: var(--card-bg);
-            text-align: center;
-            width: 100%;
+            box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(184, 134, 11, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
         }
 
         /* ANIMATION */
@@ -229,61 +468,167 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero {
+                padding: 40px 20px;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .footer-content {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .section .btn-container {
+                justify-content: center;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
-
     <!-- Welcome Popup -->
     <div class="popup" id="welcomePopup">
-        <h3>👋 Welcome to Election Hub!</h3>
-        <p>Your go-to place for election results, polling trends, and voter education.</p>
-        <p>🔹 <strong>Stay Updated:</strong> View the latest election results and federal polling data.</p>
-        <p>🔹 <strong>Be an Informed Voter:</strong> Explore party platforms and fact-checked news.</p>
-        <p>🔹 <strong>Find Your Match:</strong> Take the political quiz to see which party aligns with your values.</p>
-        <button onclick="closePopup()">Got it! 🚀</button>
+        <h3><i class="fas fa-hand-wave"></i> Welcome to Election Hub!</h3>
+        <p><i class="fas fa-info-circle"></i> <strong>Your go-to place for election results, polling trends, and voter education.</strong></p>
+        <p><i class="fas fa-chart-line"></i> <strong>Stay Updated:</strong> View the latest election results and federal polling data.</p>
+        <p><i class="fas fa-brain"></i> <strong>Be an Informed Voter:</strong> Explore party platforms and fact-checked news.</p>
+        <p><i class="fas fa-puzzle-piece"></i> <strong>Find Your Match:</strong> Take the political quiz to see which party aligns with your values.</p>
+        <button onclick="closePopup()">Got it! <i class="fas fa-rocket"></i></button>
     </div>
     
     <div class="overlay" id="popupOverlay"></div>
 
-    <div class="container">
-        <h1>🗳️ Election Hub</h1>
-        <p>An unbiased source for election results, polling trends, and voter education.</p>
-
-        <div class="btn-container">
-            <a href="results.html" class="btn">📍 2025 Ontario Election Results</a>
-            <a href="federal_polling.html" class="btn">🗳️ Federal Election</a>
+    <header>
+        <div class="wrapper header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-vote-yea"></i>
+                <span>Election Hub</span>
+            </a>
+           <!-- <button class="theme-toggle" onclick="toggleLightMode()" id="themeToggle"> 
+                <i class="fas fa-sun"></i> -->
+            </button>
         </div>
+    </header>
 
-        <div id="countdown"></div>
-
-        <div class="toggle-container">
-           <!-- <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button> -->
+    <main>
+        <div class="wrapper">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1><i class="fas fa-vote-yea"></i> Election Hub</h1>
+                    <p>An unbiased source for election results, polling trends, and voter education.</p>
+    
+                    <div class="btn-container">
+                        <a href="results.html" class="btn">
+                            <i class="fas fa-map-marker-alt"></i> 2025 Ontario Election Results
+                        </a>
+                        <a href="federal_polling.html" class="btn">
+                            <i class="fas fa-poll"></i> Federal Election
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="countdown-container">
+                <div id="countdown">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span id="countdown-text">Next Federal Election:<strong>240 days</strong></span>
+                </div>
+            </div>
+    
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-brain"></i>
+                    <h2>How to Be an Informed Voter</h2>
+                </div>
+                <ul>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Research party platforms and policies—not just headlines.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Verify facts from multiple trusted sources before sharing.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Watch live debates or read transcripts to understand leaders' positions.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Engage in respectful discussions and encourage informed voting.</span>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h2>Discover Your Political Alignment</h2>
+                </div>
+                <ul>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Take the interactive political quiz to see which party aligns with your values.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Your answers are anonymous—nothing is tracked, stored, or shared.</span>
+                    </li>
+                </ul>
+                <div class="btn-container">
+                    <a href="political_quiz.html" class="btn">
+                        <i class="fas fa-clipboard-list"></i> Take the Quiz
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="section">
-        <h2>🧠 How to Be an Informed Voter!</h2>
-        <ul>
-            <li>Research party platforms and policies—not just headlines.</li>
-            <li>Verify facts from multiple trusted sources before sharing.</li>
-            <li>Watch live debates or read transcripts to understand leaders' positions.</li>
-            <li>Engage in respectful discussions and encourage informed voting.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>🔎 Discover Your Political Alignment</h2>
-        <ul>
-            <li>Take the interactive political quiz to see which party aligns with your values.</li>
-            <li>Your answers are anonymous—nothing is tracked, stored, or shared.</li>
-        </ul>
-        <div class="btn-container">
-            <a href="political_quiz.html" class="btn">📝 Take the Quiz</a>
-        </div>
-    </div>
+    </main>
 
     <footer>
-        &copy; 2025 Noah Cornish. All rights reserved.
+        <div class="wrapper footer-content">
+            <div class="copyright">
+                &copy; 2025 Noah Cornish. All rights reserved.
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -291,38 +636,42 @@
             const electionDate = new Date("October 26, 2025 00:00:00").getTime();
             const now = new Date().getTime();
             const days = Math.floor((electionDate - now) / (1000 * 60 * 60 * 24));
-            document.getElementById("countdown").innerHTML = `⏳ Next Federal Election: <strong>${days} days</strong>`;
+            document.getElementById("countdown-text").innerHTML = `Next Federal Election: <strong>${days} days</strong>`;
         }
         updateCountdown();
 
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-
-            if (document.body.classList.contains("dark-mode")) {
-                localStorage.setItem("darkMode", "enabled");
+        // Function renamed to toggleLightMode since dark is now default
+        function toggleLightMode() {
+            document.body.classList.toggle("light-mode");
+            
+            const themeToggle = document.getElementById("themeToggle");
+            if (document.body.classList.contains("light-mode")) {
+                localStorage.setItem("lightMode", "enabled");
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             } else {
-                localStorage.setItem("darkMode", "disabled");
+                localStorage.setItem("lightMode", "disabled");
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
             }
         }
 
         function closePopup() {
-    document.getElementById("welcomePopup").classList.remove("show");
-    document.getElementById("popupOverlay").classList.remove("show");
-    sessionStorage.setItem("popupClosed", "true");
-}
+            document.getElementById("welcomePopup").classList.remove("show");
+            document.getElementById("popupOverlay").classList.remove("show");
+            sessionStorage.setItem("popupClosed", "true");
+        }
 
-window.onload = function () {
-    if (!sessionStorage.getItem("popupClosed")) {
-        document.getElementById("welcomePopup").classList.add("show");
-        document.getElementById("popupOverlay").classList.add("show");
-    }
+        window.onload = function () {
+            if (!sessionStorage.getItem("popupClosed")) {
+                document.getElementById("welcomePopup").classList.add("show");
+                document.getElementById("popupOverlay").classList.add("show");
+            }
 
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark-mode");
-    }
-};
-
+            // Check for light mode, not dark mode since dark is default now
+            if (localStorage.getItem("lightMode") === "enabled") {
+                document.body.classList.add("light-mode");
+                document.getElementById("themeToggle").innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        };
     </script>
-
 </body>
 </html>
